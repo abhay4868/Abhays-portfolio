@@ -1,3 +1,68 @@
+// Floating Dots and Connecting Lines Animation
+document.addEventListener('DOMContentLoaded', function() {
+    const dots = document.querySelectorAll('.dot');
+    const svg = document.querySelector('.connections');
+    
+    if (dots.length > 0 && svg) {
+        // Create connecting lines between nearby dots
+        function createConnections() {
+            // Clear existing lines
+            svg.innerHTML = `
+                <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:rgba(255, 255, 255, 0.4);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.1);stop-opacity:0" />
+                    </linearGradient>
+                </defs>
+            `;
+            
+            // Calculate connections between dots
+            for (let i = 0; i < dots.length; i++) {
+                for (let j = i + 1; j < dots.length; j++) {
+                    const dot1 = dots[i];
+                    const dot2 = dots[j];
+                    
+                    const rect1 = dot1.getBoundingClientRect();
+                    const rect2 = dot2.getBoundingClientRect();
+                    
+                    const x1 = (rect1.left + rect1.width / 2) / window.innerWidth * 100;
+                    const y1 = (rect1.top + rect1.height / 2) / window.innerHeight * 100;
+                    const x2 = (rect2.left + rect2.width / 2) / window.innerWidth * 100;
+                    const y2 = (rect2.top + rect2.height / 2) / window.innerHeight * 100;
+                    
+                    // Calculate distance
+                    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    
+                    // Only connect dots that are close enough
+                    if (distance < 30) {
+                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        line.setAttribute('x1', x1);
+                        line.setAttribute('y1', y1);
+                        line.setAttribute('x2', x2);
+                        line.setAttribute('y2', y2);
+                        line.setAttribute('stroke', 'url(#lineGradient)');
+                        line.setAttribute('stroke-width', '1');
+                        line.setAttribute('stroke-opacity', '0.6');
+                        line.style.animation = 'pulseLine 3s ease-in-out infinite';
+                        line.style.animationDelay = Math.random() * 3 + 's';
+                        
+                        svg.appendChild(line);
+                    }
+                }
+            }
+        }
+        
+        // Create initial connections
+        createConnections();
+        
+        // Update connections on window resize
+        window.addEventListener('resize', createConnections);
+        
+        // Update connections periodically for dynamic effect
+        setInterval(createConnections, 5000);
+    }
+});
+
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -545,97 +610,7 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// Professional Cursor Tracker
-let cursorTracker = null;
-let cursorDot = null;
-
-function initCursorTracker() {
-    cursorTracker = document.querySelector('.cursor-tracker');
-    cursorDot = document.querySelector('.cursor-dot');
-    
-    if (!cursorTracker || !cursorDot) return;
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let trackerX = 0;
-    let trackerY = 0;
-    let dotX = 0;
-    let dotY = 0;
-    
-    // Professional smooth tracking with minimal delay
-    function updateCursor() {
-        // Subtle smoothness for professional feel
-        trackerX += (mouseX - trackerX) * 0.3;
-        trackerY += (mouseY - trackerY) * 0.3;
-        dotX += (mouseX - dotX) * 0.5;
-        dotY += (mouseY - dotY) * 0.5;
-        
-        cursorTracker.style.left = trackerX + 'px';
-        cursorTracker.style.top = trackerY + 'px';
-        cursorDot.style.left = dotX + 'px';
-        cursorDot.style.top = dotY + 'px';
-        
-        requestAnimationFrame(updateCursor);
-    }
-    
-    // Track mouse movement
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    // Professional hover effects
-    const interactiveElements = document.querySelectorAll('a, button, .btn, .service-card, .project-card, .testimonial-card');
-    
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            cursorTracker.style.transform = 'translate(-50%, -50%) scale(1.8)';
-            cursorTracker.style.background = 'linear-gradient(135deg, #ff6b35, #ff8c42)';
-            cursorTracker.style.borderColor = '#e55a2b';
-            cursorTracker.style.boxShadow = '0 0 20px rgba(255, 107, 53, 0.6)';
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            cursorTracker.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursorTracker.style.background = 'rgba(255, 107, 53, 0.8)';
-            cursorTracker.style.borderColor = '#ff6b35';
-            cursorTracker.style.boxShadow = '0 0 10px rgba(255, 107, 53, 0.3)';
-        });
-    });
-    
-    // Special effects for different element types
-    document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            cursorTracker.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-            cursorTracker.style.boxShadow = '0 0 25px rgba(102, 126, 234, 0.6)';
-        });
-    });
-    
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            cursorTracker.style.background = 'linear-gradient(135deg, #ff9a9e, #fecfef)';
-            cursorTracker.style.boxShadow = '0 0 25px rgba(255, 154, 158, 0.6)';
-        });
-    });
-    
-    // Hide cursor when mouse leaves window
-    document.addEventListener('mouseleave', () => {
-        cursorTracker.style.opacity = '0';
-        cursorDot.style.opacity = '0';
-    });
-    
-    // Show cursor when mouse enters window
-    document.addEventListener('mouseenter', () => {
-        cursorTracker.style.opacity = '0.8';
-        cursorDot.style.opacity = '1';
-    });
-    
-    // Start tracking
-    updateCursor();
-}
-
-// Initialize cursor tracker when DOM is loaded
-document.addEventListener('DOMContentLoaded', initCursorTracker);
+/* Cursor Tracker - REMOVED */
 
 // Dynamic Text Animation Controller
 function initDynamicText() {
