@@ -1,0 +1,16 @@
+{
+  "name": "abhays-portfolio",
+  "version": "1.0.0",
+  "description": "Abhay Tiwari's Portfolio Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=/index.html",
+    "start": "live-server --port=3000 --open=/index.html"
+  },
+  "keywords": ["portfolio", "web", "developer", "abhay", "tiwari"],
+  "author": "Abhay Tiwari",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
