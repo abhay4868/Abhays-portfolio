@@ -346,15 +346,30 @@ window.addEventListener('load', () => {
     }
 });
 
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
+// Parallax effect for hero section - disabled on small screens to avoid off-screen jitter
+function handleHeroParallax() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    const isSmall = window.matchMedia('(max-width: 768px)').matches;
+    if (isSmall) {
+        hero.style.transform = 'translateY(0)';
+        window.removeEventListener('scroll', parallaxScrollHandler);
+        return;
+    }
+    window.addEventListener('scroll', parallaxScrollHandler);
+}
+
+function parallaxScrollHandler() {
     const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero');
-    if (hero) {
-        const rate = scrolled * -0.3;
-        hero.style.transform = `translateY(${rate}px)`;
-    }
-});
+    if (!hero) return;
+    const rate = scrolled * -0.3;
+    hero.style.transform = `translateY(${rate}px)`;
+}
+
+window.addEventListener('load', handleHeroParallax);
+window.addEventListener('resize', handleHeroParallax);
 
 // Service cards hover effect
 document.querySelectorAll('.service-card').forEach(card => {
@@ -373,19 +388,50 @@ document.querySelectorAll('.project-card').forEach(card => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
+
         const rotateX = (y - centerY) / 20;
         const rotateY = (centerX - x) / 20;
-        
+
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
     });
-    
+
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
     });
+});
+
+// Enable touch-activated hover effects for mobile (mirror desktop hover)
+function enableTouchHover(selector) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+        // Add on touchstart
+        el.addEventListener('touchstart', () => {
+            // Remove from siblings within same scroller/grid to avoid many active states
+            const siblings = el.parentElement ? el.parentElement.querySelectorAll(selector) : [];
+            siblings.forEach(s => { if (s !== el) s.classList.remove('touch-active'); });
+            el.classList.add('touch-active');
+        }, { passive: true });
+
+        // Remove on touchend after a short delay to let animation show
+        el.addEventListener('touchend', () => {
+            setTimeout(() => el.classList.remove('touch-active'), 180);
+        }, { passive: true });
+
+        // Fallback: toggle on click for devices that fire click only
+        el.addEventListener('click', () => {
+            el.classList.toggle('touch-active');
+            setTimeout(() => el.classList.remove('touch-active'), 220);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    enableTouchHover('.service-card');
+    enableTouchHover('.project-card');
+    enableTouchHover('.cert-card');
 });
 
 // Smooth reveal animation for sections
