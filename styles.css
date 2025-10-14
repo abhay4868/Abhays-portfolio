@@ -1024,6 +1024,13 @@ h2.section-title::after {
     border-color: rgba(255, 107, 53, 0.6);
 }
 
+/* Mirror profile hover for mobile tap */
+.profile-card.touch-active {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 60px rgba(255, 107, 53, 0.3);
+    border-color: rgba(255, 107, 53, 0.6);
+}
+
 .profile-card:hover::before {
     opacity: 1;
 }
@@ -1103,12 +1110,12 @@ h2.section-title::after {
     z-index: 10;
 }
 
-    .skills-content {
-        display: grid;
-        grid-template-columns: 1fr; /* stack categories */
-        gap: 32px;
-        margin-top: 40px;
-    }
+.skills-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 50px;
+}
 
 .skills-category h3 {
     font-size: 1.8rem;
@@ -1118,12 +1125,11 @@ h2.section-title::after {
     text-align: center;
 }
 
-    .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* consistent two columns */
-        gap: 14px;
-        align-items: stretch;
-    }
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+}
 
 .skill-item {
     background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
@@ -2509,9 +2515,8 @@ h2.section-title::after {
     }
 
     /* Make cards and grids more compact on mobile */
-    .skills-grid {
-        gap: 14px;
-    }
+    .skills-content { grid-template-columns: 1fr; gap: 32px; margin-top: 40px; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; align-items: stretch; }
     .skill-item {
         padding: 18px 12px;
         height: 110px; /* equal height for alignment */

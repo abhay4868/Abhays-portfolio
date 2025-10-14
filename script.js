@@ -427,6 +427,8 @@ document.addEventListener('DOMContentLoaded', () => {
     enableTouchHover('.skill-item');
     // Enable touch-activated hover for testimonial cards
     enableTouchHover('.testimonial-card');
+    // Enable touch-activated hover for profile cards (about section)
+    enableTouchHover('.profile-card');
 
     // Removed projects mobile slider nav
 
