@@ -2228,6 +2228,10 @@ h2.section-title::after {
     .nav-logo h2 {
         font-size: 24px;
     }
+    /* Shift header name 6px to the right on mobile */
+    .nav-logo h2 {
+        margin-left: 6px;
+    }
     .nav-link {
         font-size: 14px;
         padding: 6px 12px;
@@ -2239,6 +2243,12 @@ h2.section-title::after {
 
     .hamburger {
         display: flex;
+    }
+
+    /* Shift mobile hamburger 6px left */
+    .hamburger {
+        position: relative;
+        left: -6px;
     }
 
     .nav-menu {
