@@ -430,6 +430,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enable touch-activated hover for profile cards (about section)
     enableTouchHover('.profile-card');
 
+    // Trigger contact line animations when contact section becomes visible
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Allow animations to run via CSS
+                    contactSection.classList.add('contact-animate-start');
+                    // Make sure delays are set
+                    contactSection.querySelectorAll('.contact-anim-line').forEach(el => {
+                        const delayAttr = el.getAttribute('data-delay');
+                        if (delayAttr) el.style.setProperty('--delay', delayAttr + 'ms');
+                    });
+                    contactObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.25, rootMargin: '0px 0px -60px 0px' });
+        contactObserver.observe(contactSection);
+    }
+
     // Removed projects mobile slider nav
 
     // Tap/keyboard to flip service cards (scoped to single card, no bubbling)

@@ -2128,6 +2128,26 @@ h2.section-title::after {
     z-index: 10;
 }
 
+/* Contact animated lines (global so it also works on desktop/tablet) */
+.contact-anim-line {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    filter: blur(2px);
+    animation: contactLineIn 0.6s ease forwards;
+    animation-delay: var(--delay, 0ms);
+    animation-play-state: paused; /* start paused; will run when section enters */
+}
+.contact-animate-start .contact-anim-line { animation-play-state: running; }
+.contact-anim-line.is-email { --delay: 120ms; }
+.contact-anim-line.is-location { --delay: 240ms; }
+.contact-anim-line.is-resume { --delay: 360ms; }
+@keyframes contactLineIn {
+    0% { opacity: 0; transform: translateY(12px) scale(0.98); filter: blur(2px); }
+    60% { opacity: 1; transform: translateY(-3px) scale(1.02); filter: blur(0.6px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
 .thank-you::before {
     content: '';
     position: absolute;
@@ -2648,6 +2668,59 @@ h2.section-title::after {
     .contact-content {
         grid-template-columns: 1fr;
         gap: 40px;
+    }
+
+    /* Polished mobile layout for Get in Touch items */
+    .contact-items {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .contact-item {
+        display: flex;
+        flex-direction: column; /* stack heading then value */
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 14px 16px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+    }
+    .contact-item::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,107,53,0.12), transparent);
+        transition: left 0.6s ease;
+    }
+    .contact-item:active::before, .contact-item:hover::before { left: 100%; }
+    .contact-item h4 { margin: 0; font-size: 0.95rem; color: #fff; opacity: 0.95; text-align: center; }
+    .contact-item span, .contact-item a { color: #e5e7eb; font-weight: 600; text-align: center; }
+    .contact-item a { text-decoration: none; border-bottom: 1px dashed rgba(255,107,53,0.6); }
+    .contact-item a:active { color: #ff6b35; }
+
+    /* Animated lines inside contact cards */
+    .contact-anim-line {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+        filter: blur(2px);
+        animation: contactLineIn 0.6s ease forwards;
+        animation-delay: var(--delay, 0ms);
+    }
+    .contact-anim-line.is-email { --delay: 120ms; }
+    .contact-anim-line.is-location { --delay: 240ms; }
+    .contact-anim-line.is-resume { --delay: 360ms; }
+    @keyframes contactLineIn {
+        0% { opacity: 0; transform: translateY(8px) scale(0.98); filter: blur(2px); }
+        60% { opacity: 1; transform: translateY(-2px) scale(1.02); filter: blur(0.5px); }
+        100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
 
     .form-row {
