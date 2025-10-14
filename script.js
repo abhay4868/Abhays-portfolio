@@ -432,6 +432,8 @@ document.addEventListener('DOMContentLoaded', () => {
     enableTouchHover('.service-card');
     enableTouchHover('.project-card');
     enableTouchHover('.cert-card');
+
+    // Removed projects mobile slider nav
 });
 
 // Smooth reveal animation for sections

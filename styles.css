@@ -1244,8 +1244,8 @@ h2.section-title::after {
 
 .service-card {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 25px 20px;
-    border-radius: 20px;
+    padding: 16px 14px;
+    border-radius: 16px;
     text-align: center;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1253,6 +1253,7 @@ h2.section-title::after {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 107, 53, 0.3);
+    min-height: unset;
 }
 
 .service-card::before {
@@ -1281,9 +1282,9 @@ h2.section-title::after {
 }
 
 .service-icon {
-    font-size: 3rem;
+    font-size: 2rem;
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: inline-block;
 }
@@ -1295,9 +1296,9 @@ h2.section-title::after {
 }
 
 .service-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 4px;
     color: white;
     transition: all 0.3s ease;
 }
@@ -2457,8 +2458,10 @@ h2.section-title::after {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
-        padding-bottom: 10px;
+        padding-bottom: 2px;
+        scrollbar-width: none; /* Firefox */
     }
+    .projects-grid::-webkit-scrollbar { display: none; }
     .project-card {
         flex: 0 0 85%;
         scroll-snap-align: start;
@@ -2527,6 +2530,8 @@ h2.section-title::after {
     }
 }
 
+/* Removed projects slider nav buttons */
+
 @media (max-width: 480px) {
     .hero-title {
         font-size: 1.8rem;
@@ -2549,7 +2554,7 @@ h2.section-title::after {
 
     /* Certifications grid should not require 350px columns on phones */
     .certifications-grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
     .cert-image {
@@ -2642,12 +2647,13 @@ h2.section-title::after {
 
 /* Simple Dynamic Text Animation - No Overlap */
 .dynamic-text {
-    font-size: 2.2rem;
+    font-size: clamp(1.2rem, 2.2vw, 1.8rem);
     font-weight: 800;
     color: #ff6b35;
     display: inline-block;
     position: relative;
-    min-width: 200px;
+    min-width: 160px;
+    max-width: 90vw;
     text-align: left;
 }
 
@@ -2657,13 +2663,14 @@ h2.section-title::after {
     transform: translateY(20px);
     transition: all 0.5s ease;
     font-family: 'Poppins', sans-serif;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
     left: 0;
     top: 0;
-    font-size: 2.2rem;
+    font-size: inherit;
     font-weight: 800;
     white-space: nowrap;
+    transform-origin: left center;
 }
 
 .dynamic-word.active {
