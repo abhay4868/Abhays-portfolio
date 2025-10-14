@@ -554,6 +554,38 @@ window.addEventListener('load', () => {
     setTimeout(() => {
         document.body.style.opacity = '1';
     }, 100);
+
+    // Trigger thank-you confetti when section becomes visible
+    const thankSection = document.getElementById('thank-you');
+    if (thankSection) {
+        const confetti = thankSection.querySelector('.confetti');
+        const emojis = thankSection.querySelectorAll('.thank-emoji span');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Restart confetti animation by cloning nodes
+                    if (confetti) {
+                        confetti.querySelectorAll('span').forEach((p, idx) => {
+                            p.style.animation = 'none';
+                            // force reflow
+                            void p.offsetWidth;
+                            p.style.animation = '';
+                        });
+                    }
+                    // Restart emoji animation
+                    if (emojis) {
+                        emojis.forEach(e => {
+                            e.style.animation = 'none';
+                            void e.offsetWidth;
+                            e.style.animation = '';
+                        });
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(thankSection);
+    }
 });
 
 // Console welcome message

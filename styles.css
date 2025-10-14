@@ -2075,6 +2075,144 @@ h2.section-title::after {
     z-index: 10;
 }
 
+/* Thank You Section */
+.thank-you {
+    padding: 140px 0 120px 0;
+    background: transparent;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.thank-you::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 20%, rgba(255, 107, 53, 0.12), transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 140, 66, 0.12), transparent 50%);
+    pointer-events: none;
+}
+
+.thank-you-inner {
+    position: relative;
+    text-align: center;
+}
+
+.thank-emoji {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    pointer-events: none;
+}
+.thank-emoji span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.9) rotate(-8deg);
+    animation: emojiFloat 1.8s ease forwards;
+}
+.thank-emoji span:nth-child(1) { animation-delay: .15s; }
+.thank-emoji span:nth-child(2) { animation-delay: .3s; }
+.thank-emoji span:nth-child(3) { animation-delay: .45s; }
+.thank-emoji span:nth-child(4) { animation-delay: .6s; }
+.thank-emoji span:nth-child(5) { animation-delay: .75s; }
+
+@keyframes emojiFloat {
+    0% { opacity: 0; transform: translateY(-10px) scale(0.9) rotate(-8deg); }
+    40% { opacity: 1; transform: translateY(-2px) scale(1.05) rotate(6deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.thank-title {
+    font-weight: 800;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    display: inline-block;
+}
+
+.thank-title .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    animation: thankPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.thank-title .word:nth-child(1) { animation-delay: 0.0s; }
+.thank-title .word:nth-child(2) { animation-delay: 0.12s; }
+.thank-title .word:nth-child(3) { animation-delay: 0.24s; }
+.thank-title .word:nth-child(4) { animation-delay: 0.36s; }
+
+@keyframes thankPop {
+    0%   { opacity: 0; transform: translateY(30px) scale(0.95) rotate(-2deg); }
+    60%  { opacity: 1; transform: translateY(-4px) scale(1.02) rotate(1deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.thank-subtitle {
+    color: #e5e7eb;
+    font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeInUp 0.7s ease forwards;
+    animation-delay: 0.6s;
+}
+
+.thank-actions { display: flex; gap: 12px; justify-content: center; }
+.thank-actions .btn { min-width: 150px; }
+
+.thank-actions .btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 24px rgba(255, 107, 53, 0.25);
+}
+
+/* Confetti burst */
+.confetti {
+    position: absolute;
+    inset: -20px 0 0 0;
+    pointer-events: none;
+    overflow: visible;
+}
+.confetti span {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 8px;
+    height: 14px;
+    background: #ff6b35;
+    border-radius: 2px;
+    opacity: 0;
+    transform: translateX(-50%) rotate(0);
+    animation: confettiFall 1.8s ease-out forwards;
+}
+.confetti span:nth-child(odd) { background: #ff8c42; }
+.confetti span:nth-child(3n) { background: #ffd166; }
+.confetti span:nth-child(5n) { background: #06d6a0; }
+
+.confetti span:nth-child(1) { left: 46%; animation-delay: .05s; }
+.confetti span:nth-child(2) { left: 54%; animation-delay: .10s; }
+.confetti span:nth-child(3) { left: 40%; animation-delay: .15s; }
+.confetti span:nth-child(4) { left: 60%; animation-delay: .20s; }
+.confetti span:nth-child(5) { left: 35%; animation-delay: .25s; }
+.confetti span:nth-child(6) { left: 65%; animation-delay: .30s; }
+.confetti span:nth-child(7) { left: 30%; animation-delay: .35s; }
+.confetti span:nth-child(8) { left: 70%; animation-delay: .40s; }
+.confetti span:nth-child(9) { left: 25%; animation-delay: .45s; }
+.confetti span:nth-child(10) { left: 75%; animation-delay: .50s; }
+
+@keyframes confettiFall {
+    0% { opacity: 0; transform: translate(-50%, -20px) rotate(0deg); }
+    15% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, 220px) rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .thank-actions { flex-direction: column; }
+    .thank-actions .btn { width: 100%; max-width: 280px; }
+}
+
 /* Enhanced Profile Styles */
 .profile-badge {
     position: absolute;
