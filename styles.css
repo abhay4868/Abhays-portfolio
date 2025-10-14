@@ -685,6 +685,9 @@ body::before {
     background: #000000;
 }
 
+/* Hide the inline mobile hero image on desktop */
+.mobile-hero-image { display: none; }
+
 .main-image {
     width: 350px;
     height: 350px;
@@ -2589,9 +2592,8 @@ h2.section-title::after {
         text-align: center;
     }
 
-    .hero-right {
-        order: -1;
-    }
+    .hero-left { order: 0; }
+    .hero-right { order: 1; }
 
     /* Add breathing room below hero on mobile, like desktop spacing */
     .hero {
@@ -2608,6 +2610,10 @@ h2.section-title::after {
         width: 300px;
         height: 300px;
     }
+    /* Show the inline mobile image above CTA, hide the right-side image */
+    .mobile-hero-image { display: block; margin: 14px auto 6px auto; }
+    .mobile-hero-image .hero-profile-image { width: 280px; height: 280px; }
+    .hero-right { display: none; }
 
     .main-image {
         width: 300px;
@@ -2899,6 +2905,8 @@ h2.section-title::after {
         padding: 20px;
         border-radius: 12px;
     }
+    /* Force single-column certifications on mobile/tablet */
+    .certifications-grid { grid-template-columns: 1fr; }
 }
 
 /* Removed projects slider nav buttons */
@@ -2930,7 +2938,7 @@ h2.section-title::after {
 
     /* Certifications grid should not require 350px columns on phones */
     .certifications-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         gap: 20px;
     }
     .cert-image {
