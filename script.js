@@ -371,16 +371,7 @@ function parallaxScrollHandler() {
 window.addEventListener('load', handleHeroParallax);
 window.addEventListener('resize', handleHeroParallax);
 
-// Service cards hover effect
-document.querySelectorAll('.service-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-    });
-});
+// Service cards hover effect removed to avoid interfering with flip
 
 // Project cards 3D tilt effect
 document.querySelectorAll('.project-card').forEach(card => {
@@ -432,8 +423,42 @@ document.addEventListener('DOMContentLoaded', () => {
     enableTouchHover('.service-card');
     enableTouchHover('.project-card');
     enableTouchHover('.cert-card');
+    // Enable touch-activated hover for skill items on mobile
+    enableTouchHover('.skill-item');
+    // Enable touch-activated hover for testimonial cards
+    enableTouchHover('.testimonial-card');
 
     // Removed projects mobile slider nav
+
+    // Tap/keyboard to flip service cards (scoped to single card, no bubbling)
+    document.querySelectorAll('.service-card').forEach(card => {
+        const isMobile = window.matchMedia('(hover: none), (max-width: 768px)').matches;
+        const toggle = (e) => {
+            e.stopPropagation();
+            if (isMobile) {
+                // On mobile: persistent toggle, and close others
+                document.querySelectorAll('.service-card.touch-active').forEach(other => {
+                    if (other !== card) other.classList.remove('touch-active');
+                });
+                card.classList.toggle('touch-active');
+            } else {
+                // On desktop: temporary toggle
+                card.classList.add('touch-active');
+                setTimeout(() => card.classList.remove('touch-active'), 1200);
+            }
+        };
+        card.addEventListener('click', toggle);
+        card.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggle(e);
+            }
+        });
+        // Support touchstart explicitly for faster response
+        card.addEventListener('touchstart', (e) => {
+            toggle(e);
+        }, { passive: true });
+    });
 });
 
 // Smooth reveal animation for sections
@@ -455,6 +480,28 @@ revealElements.forEach(element => {
     element.style.transform = 'translateY(30px)';
     element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     revealObserver.observe(element);
+});
+
+// Staggered reveal for My Skills cards
+document.addEventListener('DOMContentLoaded', () => {
+    const skillsSection = document.getElementById('skills');
+    if (!skillsSection) return;
+    const skillItems = skillsSection.querySelectorAll('.skill-item');
+
+    const skillsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                skillsSection.classList.add('skills-visible');
+                // Staggered delays
+                skillItems.forEach((item, idx) => {
+                    item.style.transitionDelay = `${Math.min(idx * 80, 600)}ms`;
+                });
+                skillsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -80px 0px' });
+
+    skillsObserver.observe(skillsSection);
 });
 
 // Counter animation for stats

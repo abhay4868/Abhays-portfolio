@@ -1103,12 +1103,12 @@ h2.section-title::after {
     z-index: 10;
 }
 
-.skills-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-top: 50px;
-}
+    .skills-content {
+        display: grid;
+        grid-template-columns: 1fr; /* stack categories */
+        gap: 32px;
+        margin-top: 40px;
+    }
 
 .skills-category h3 {
     font-size: 1.8rem;
@@ -1118,11 +1118,12 @@ h2.section-title::after {
     text-align: center;
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 20px;
-}
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* consistent two columns */
+        gap: 14px;
+        align-items: stretch;
+    }
 
 .skill-item {
     background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
@@ -1133,6 +1134,11 @@ h2.section-title::after {
     border: 1px solid rgba(255, 107, 53, 0.2);
     position: relative;
     overflow: hidden;
+    /* Hidden by default for scroll-reveal */
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+    transition: opacity 0.45s ease, transform 0.45s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform, opacity;
 }
 
 .skill-item::before {
@@ -1148,6 +1154,21 @@ h2.section-title::after {
 
 .skill-item:hover::before {
     left: 100%;
+}
+
+/* Mirror hover effects for touch-active (mobile tap) */
+.skill-item.touch-active::before { left: 100%; }
+.skill-item.touch-active {
+    transform: translateY(-5px);
+    border-color: rgba(255, 107, 53, 0.5);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+}
+.skill-item.touch-active i { transform: scale(1.1); color: #ff8c42; }
+
+/* When skills section is visible, reveal cards */
+.skills.skills-visible .skill-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 .skill-item:hover {
@@ -1243,17 +1264,14 @@ h2.section-title::after {
 }
 
 .service-card {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 16px 14px;
+    background: transparent;
+    padding: 0;
     border-radius: 16px;
     text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color: white;
     position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 107, 53, 0.3);
-    min-height: unset;
+    perspective: 1000px;
+    isolation: isolate; /* prevent neighbor collisions */
 }
 
 .service-card::before {
@@ -1275,18 +1293,88 @@ h2.section-title::after {
 
 .service-card:hover,
 .service-card.touch-active {
-    transform: translateY(-15px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(255, 107, 53, 0.3);
-    border-color: rgba(255, 107, 53, 0.6);
-    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    transform: none;
 }
 
-.service-icon {
+.service-card-inner {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    transition: box-shadow 0.35s ease;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.service-card:focus .service-card-inner,
+.service-card:hover .service-card-inner,
+.service-card.touch-active .service-card-inner {
+    box-shadow: 0 14px 40px rgba(255, 107, 53, 0.25);
+}
+
+/* Raise stacking on interaction so it renders above neighbors without shifting layout */
+.service-card:hover,
+.service-card:focus,
+.service-card.touch-active { z-index: 3; }
+
+/* Prevent neighboring cards from reacting to hover via shared shadows/margins */
+.services-grid { position: relative; }
+
+.service-card-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.service-card-front .service-icon {
     font-size: 2rem;
-    color: white;
     margin-bottom: 10px;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: inline-block;
+}
+
+.service-card-front {
+    transform: rotateY(0deg);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.service-card-back {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    transform: rotateY(-180deg);
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.service-card:hover .service-card-front,
+.service-card:focus .service-card-front,
+.service-card.touch-active .service-card-front {
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+.service-card:hover .service-card-back,
+.service-card:focus .service-card-back,
+.service-card.touch-active .service-card-back {
+    transform: rotateY(0deg);
+    opacity: 1;
+}
+
+.service-card-back h4 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    color: #ff6b35;
+}
+
+.service-card-back p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .service-card:hover .service-icon,
@@ -1411,6 +1499,9 @@ h2.section-title::after {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     border-color: rgba(255, 255, 255, 0.3);
 }
+
+/* Mirror project hover for mobile tap */
+.project-card.touch-active::before { left: 100%; }
 
 .project-image {
     height: 200px;
@@ -1577,6 +1668,9 @@ h2.section-title::after {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     border-color: rgba(255, 255, 255, 0.3);
 }
+
+/* Mirror testimonial hover for mobile tap */
+.testimonial-card.touch-active::before { left: 100%; }
 
 .cert-icon {
     width: 70px;
@@ -2420,6 +2514,11 @@ h2.section-title::after {
     }
     .skill-item {
         padding: 18px 12px;
+        height: 110px; /* equal height for alignment */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .skill-item i {
         font-size: 2rem;
@@ -2433,21 +2532,9 @@ h2.section-title::after {
         gap: 16px;
         align-items: stretch;
     }
-    .service-card {
-        padding: 16px 14px;
-        border-radius: 14px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    .service-icon {
-        font-size: 2.2rem;
-        margin-bottom: 12px;
-    }
-    .service-card h3 {
-        font-size: 1.1rem;
-        margin-bottom: 10px;
-    }
+    .service-card-inner { height: 160px; }
+    .service-card-front .service-icon { font-size: 1.8rem; }
+    .service-card h3 { font-size: 1.05rem; }
     .service-card p {
         font-size: 0.95rem;
     }
