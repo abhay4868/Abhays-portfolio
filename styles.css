@@ -1023,6 +1023,11 @@ h2.section-title::after {
     box-shadow: 0 25px 60px rgba(255, 107, 53, 0.3);
     border-color: rgba(255, 107, 53, 0.6);
 }
+.profile-card:active {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 60px rgba(255, 107, 53, 0.3);
+    border-color: rgba(255, 107, 53, 0.6);
+}
 
 /* Mirror profile hover for mobile tap */
 .profile-card.touch-active {
@@ -1184,6 +1189,11 @@ h2.section-title::after {
 }
 
 .skill-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 107, 53, 0.5);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+}
+.skill-item:active {
     transform: translateY(-5px);
     border-color: rgba(255, 107, 53, 0.5);
     box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
@@ -1370,6 +1380,7 @@ h2.section-title::after {
     transform: rotateY(180deg);
     opacity: 0;
 }
+.service-card:active .service-card-front { transform: rotateY(180deg); opacity: 0; }
 
 .service-card:hover .service-card-back,
 .service-card:focus .service-card-back,
@@ -1377,6 +1388,7 @@ h2.section-title::after {
     transform: rotateY(0deg);
     opacity: 1;
 }
+.service-card:active .service-card-back { transform: rotateY(0deg); opacity: 1; }
 
 .service-card-back h4 {
     font-size: 1rem;
@@ -1511,6 +1523,12 @@ h2.section-title::after {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     border-color: rgba(255, 255, 255, 0.3);
 }
+/* Mobile press fallback */
+.project-card:active {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
+}
 
 /* Mirror project hover for mobile tap */
 .project-card.touch-active::before { left: 100%; }
@@ -1534,6 +1552,7 @@ h2.section-title::after {
     transform: scale(1.08);
     filter: brightness(1.1);
 }
+.project-card:active .project-image img { transform: scale(1.08); filter: brightness(1.1); }
 
 .project-overlay {
     position: absolute;
@@ -1554,6 +1573,7 @@ h2.section-title::after {
 .project-card.touch-active .project-overlay {
     opacity: 1;
 }
+.project-card:active .project-overlay { opacity: 1; }
 
 .project-links {
     display: flex;
@@ -1676,6 +1696,11 @@ h2.section-title::after {
 
 .cert-card:hover,
 .cert-card.touch-active {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.cert-card:active {
     transform: translateY(-15px) scale(1.02);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     border-color: rgba(255, 255, 255, 0.3);
@@ -1921,6 +1946,18 @@ h2.section-title::after {
 }
 
 .testimonial-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 107, 53, 0.4);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+}
+.testimonial-card.touch-active {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 107, 53, 0.4);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+}
+.testimonial-card:active {
     transform: translateY(-8px) scale(1.02);
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 107, 53, 0.4);
