@@ -1140,6 +1140,12 @@ h2.section-title::after {
     border: 1px solid rgba(255, 107, 53, 0.2);
     position: relative;
     overflow: hidden;
+    /* Ensure consistent alignment across categories on desktop */
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     /* Hidden by default for scroll-reveal */
     opacity: 0;
     transform: translateY(20px) scale(0.96);
@@ -2161,7 +2167,7 @@ h2.section-title::after {
 }
 
 .thank-actions { display: flex; gap: 12px; justify-content: center; }
-.thank-actions .btn { min-width: 150px; }
+.thank-actions .btn { min-width: 150px; display: inline-flex; align-items: center; gap: 8px; }
 
 .thank-actions .btn:hover {
     transform: translateY(-3px) scale(1.02);
@@ -2209,8 +2215,18 @@ h2.section-title::after {
 }
 
 @media (max-width: 768px) {
-    .thank-actions { flex-direction: column; }
-    .thank-actions .btn { width: 100%; max-width: 280px; }
+    /* Side-by-side round icon buttons on mobile */
+    .thank-actions { flex-direction: row; gap: 14px; }
+    .thank-actions .btn {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        padding: 0;
+        min-width: 0;
+        justify-content: center;
+    }
+    .thank-actions .btn i { font-size: 1.1rem; }
+    .thank-actions .btn .btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
 /* Enhanced Profile Styles */
@@ -2520,6 +2536,11 @@ h2.section-title::after {
         order: -1;
     }
 
+    /* Add breathing room below hero on mobile, like desktop spacing */
+    .hero {
+        margin-bottom: 40px;
+    }
+
     /* Ensure hero image scales down on mobile */
     .hero-profile-image {
         width: 280px;
@@ -2790,6 +2811,11 @@ h2.section-title::after {
     .hero-profile-image {
         width: 240px;
         height: 240px;
+    }
+
+    /* Extra small phones: a bit more space below hero */
+    .hero {
+        margin-bottom: 48px;
     }
 
     /* Certifications grid should not require 350px columns on phones */
