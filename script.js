@@ -430,6 +430,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enable touch-activated hover for profile cards (about section)
     enableTouchHover('.profile-card');
 
+    // Cursor-follow hover for skill cards (white glow + tilt)
+    const skillItems = document.querySelectorAll('.skill-item');
+    skillItems.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            // Move white glow pseudo-element via CSS variables
+            card.style.setProperty('--glowX', `${x - 70}px`);
+            card.style.setProperty('--glowY', `${y - 70}px`);
+
+            // Subtle tilt towards cursor
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 18;
+            const rotateY = (centerX - x) / 18;
+            card.style.transform = `translateY(-6px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            // Hide glow and reset transform
+            card.style.setProperty('--glowX', `-9999px`);
+            card.style.setProperty('--glowY', `-9999px`);
+            card.style.transform = '';
+        });
+    });
+
     // Trigger contact line animations when contact section becomes visible
     const contactSection = document.getElementById('contact');
     if (contactSection) {

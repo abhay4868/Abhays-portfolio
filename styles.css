@@ -1140,12 +1140,12 @@ h2.section-title::after {
 }
 
 .skill-item {
-    background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+    background: rgba(255, 255, 255, 0.06); /* subtle surface so cards are visible */
     padding: 25px 20px;
     border-radius: 15px;
     text-align: center;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 107, 53, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.12); /* faint border */
     position: relative;
     overflow: hidden;
     /* Ensure consistent alignment across categories on desktop */
@@ -1159,17 +1159,41 @@ h2.section-title::after {
     transform: translateY(20px) scale(0.96);
     transition: opacity 0.45s ease, transform 0.45s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     will-change: transform, opacity;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35),
+                0 0 0 rgba(255, 255, 255, 0); /* placeholder for white glow */
+    transform-style: preserve-3d;
+    perspective: 800px;
 }
 
 .skill-item::before {
     content: '';
     position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.18) 25%, transparent 50%);
+    transform: translateX(-120%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+    border-radius: 16px;
+}
+
+/* Cursor-follow white glow */
+.skill-item::after {
+    content: '';
+    position: absolute;
     top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
-    transition: left 0.6s ease;
+    left: 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(closest-side, rgba(255,255,255,0.22), rgba(255,255,255,0.06), transparent 70%);
+    opacity: 0;
+    transform: translate(var(--glowX, -9999px), var(--glowY, -9999px));
+    transition: opacity 0.25s ease;
+    filter: blur(3px);
 }
 
 .skill-item:hover::before {
@@ -1180,8 +1204,8 @@ h2.section-title::after {
 .skill-item.touch-active::before { left: 100%; }
 .skill-item.touch-active {
     transform: translateY(-5px);
-    border-color: rgba(255, 107, 53, 0.5);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    border-color: rgba(255, 255, 255, 0.22);
 }
 .skill-item.touch-active i { transform: scale(1.1); color: #ff8c42; }
 
@@ -1192,14 +1216,20 @@ h2.section-title::after {
 }
 
 .skill-item:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 107, 53, 0.5);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+    transform: translateY(-6px) scale(1.02) rotateX(2deg) rotateY(-2deg);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6),
+                0 0 24px rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.22);
 }
+
+.skill-item:hover::before {
+    transform: translateX(120%);
+}
+
+.skill-item:hover::after { opacity: 1; }
 .skill-item:active {
     transform: translateY(-5px);
-    border-color: rgba(255, 107, 53, 0.5);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
 }
 
 .skill-item i {
@@ -1213,6 +1243,21 @@ h2.section-title::after {
 .skill-item:hover i {
     transform: scale(1.1);
     color: #ff8c42;
+}
+
+/* Logo images for skills (replacing font icons) */
+.skill-item .skill-logo {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.skill-item:hover .skill-logo,
+.skill-item.touch-active .skill-logo {
+    transform: translateY(-2px) scale(1.1);
+    filter: drop-shadow(0 4px 10px rgba(255, 107, 53, 0.25));
 }
 
 .skill-item span {
@@ -2802,6 +2847,11 @@ h2.section-title::after {
     }
     .skill-item i {
         font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    .skill-item .skill-logo {
+        width: 32px;
+        height: 32px;
         margin-bottom: 10px;
     }
     .skill-item span {
