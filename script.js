@@ -719,7 +719,7 @@ function createInteractiveSnowflakes() {
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
             opacity: ${Math.random() * 0.8 + 0.2};
-            animation: snowfall-individual ${Math.random() * 10 + 5}s linear infinite;
+            animation: snowfall-individual ${Math.random() * 18 + 14}s linear infinite; /* slower */
         `;
         
         document.body.appendChild(snowflake);
@@ -731,10 +731,10 @@ const snowflakeStyle = document.createElement('style');
 snowflakeStyle.textContent = `
     @keyframes snowfall-individual {
         0% {
-            transform: translateY(-100vh) translateX(0);
+            transform: translateY(100vh) translateX(0);
         }
         100% {
-            transform: translateY(100vh) translateX(0);
+            transform: translateY(-100vh) translateX(0);
         }
     }
 `;
