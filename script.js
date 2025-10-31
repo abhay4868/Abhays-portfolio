@@ -430,6 +430,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enable touch-activated hover for profile cards (about section)
     enableTouchHover('.profile-card');
 
+    // Touch-friendly hero image scale (desktop wrapper + mobile inline image)
+    const heroWrapper = document.querySelector('.hero-image-wrapper');
+    if (heroWrapper) {
+        const activate = () => {
+            heroWrapper.classList.add('touch-active');
+            setTimeout(() => heroWrapper.classList.remove('touch-active'), 400);
+        };
+        heroWrapper.addEventListener('touchstart', activate, { passive: true });
+        heroWrapper.addEventListener('click', activate);
+    }
+
+    const mobileHeroImg = document.querySelector('.mobile-hero-image .hero-profile-image');
+    if (mobileHeroImg) {
+        const activate = () => {
+            mobileHeroImg.classList.add('touch-active');
+            setTimeout(() => mobileHeroImg.classList.remove('touch-active'), 400);
+        };
+        mobileHeroImg.addEventListener('touchstart', activate, { passive: true });
+        mobileHeroImg.addEventListener('click', activate);
+    }
+
     // Cursor-follow hover for skill cards (white glow + tilt)
     const skillItems = document.querySelectorAll('.skill-item');
     skillItems.forEach(card => {
