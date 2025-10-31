@@ -530,6 +530,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Coffee emoji sparkle pulse
+document.addEventListener('DOMContentLoaded', () => {
+    const coffeeRow = document.querySelector('.coffee-emoji-row');
+    if (!coffeeRow) return;
+    const emojis = Array.from(coffeeRow.querySelectorAll('span'));
+    setInterval(() => {
+        const pick = emojis[Math.floor(Math.random() * emojis.length)];
+        if (!pick) return;
+        pick.style.transition = 'transform 0.4s ease, filter 0.4s ease';
+        pick.style.transform = 'translateY(-6px) scale(1.15) rotate(8deg)';
+        pick.style.filter = 'drop-shadow(0 6px 12px rgba(255,255,255,0.25))';
+        setTimeout(() => {
+            pick.style.transform = '';
+            pick.style.filter = '';
+        }, 450);
+    }, 1600);
+});
+
+// Gentle pulsing for coffee chips
+document.addEventListener('DOMContentLoaded', () => {
+    const chips = document.querySelectorAll('.coffee-chip');
+    if (!chips.length) return;
+    let idx = 0;
+    setInterval(() => {
+        const chip = chips[idx % chips.length];
+        chip.style.transition = 'transform .35s ease, box-shadow .35s ease';
+        chip.style.transform = 'translateY(-3px) scale(1.04)';
+        chip.style.boxShadow = '0 12px 28px rgba(0,0,0,.28)';
+        setTimeout(() => {
+            chip.style.transform = '';
+            chip.style.boxShadow = '';
+        }, 380);
+        idx++;
+    }, 1400);
+});
+
 // Smooth reveal animation for sections
 const revealElements = document.querySelectorAll('section');
 const revealObserver = new IntersectionObserver((entries) => {

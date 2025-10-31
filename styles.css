@@ -2231,7 +2231,9 @@ h2.section-title::after {
 /* Thank You Section */
 .thank-you {
     padding: 140px 0 120px 0;
-    background: transparent;
+    background: radial-gradient(1200px 600px at 50% 10%, rgba(67, 40, 24, 0.35), transparent 60%),
+                radial-gradient(800px 500px at 80% 70%, rgba(118, 74, 40, 0.25), transparent 60%),
+                transparent;
     color: white;
     position: relative;
     overflow: hidden;
@@ -2293,6 +2295,63 @@ h2.section-title::after {
 .thank-emoji span:nth-child(4) { animation-delay: .6s; }
 .thank-emoji span:nth-child(5) { animation-delay: .75s; }
 
+.coffee-emoji-row span:hover {
+    transform: translateY(-4px) rotate(8deg) scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Animated coffee cup with steam */
+.coffee-cup {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0 22px 0;
+}
+.coffee-cup .cup { font-size: clamp(2rem, 6vw, 3rem); filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35)); }
+.coffee-cup .steam {
+    position: absolute;
+    width: 10px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    opacity: 0.7;
+    filter: blur(3px);
+    bottom: 20px;
+    left: 48%;
+    transform: translateX(-50%);
+    animation: steamRise 2.4s ease-in-out infinite;
+}
+.coffee-cup .steam.s1 { left: 44%; animation-delay: 0s; }
+.coffee-cup .steam.s2 { left: 50%; height: 46px; animation-delay: .5s; }
+.coffee-cup .steam.s3 { left: 56%; height: 38px; animation-delay: 1s; }
+
+@keyframes steamRise {
+    0% { transform: translate(-50%, 8px) scale(0.9); opacity: 0; }
+    30% { opacity: 0.6; }
+    60% { opacity: 0.9; }
+    100% { transform: translate(-50%, -36px) scale(1.1); opacity: 0; }
+}
+
+/* Floating coffee beans background */
+.thank-you::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(6px 10px at 10% 30%, rgba(93, 54, 28, 0.35), transparent 60%),
+      radial-gradient(6px 10px at 80% 50%, rgba(93, 54, 28, 0.35), transparent 60%),
+      radial-gradient(6px 10px at 30% 80%, rgba(93, 54, 28, 0.35), transparent 60%),
+      radial-gradient(6px 10px at 60% 20%, rgba(93, 54, 28, 0.35), transparent 60%);
+    background-repeat: no-repeat;
+    pointer-events: none;
+    animation: beansFloat 18s linear infinite;
+}
+@keyframes beansFloat {
+    0% { background-position: 10% 90%, 80% 95%, 30% 98%, 60% 92%; }
+    50% { background-position: 12% 60%, 82% 55%, 32% 68%, 58% 52%; }
+    100% { background-position: 14% 20%, 84% 15%, 34% 28%, 56% 12%; }
+}
 @keyframes emojiFloat {
     0% { opacity: 0; transform: translateY(-10px) scale(0.9) rotate(-8deg); }
     40% { opacity: 1; transform: translateY(-2px) scale(1.05) rotate(6deg); }
@@ -2305,6 +2364,10 @@ h2.section-title::after {
     letter-spacing: 1px;
     margin-bottom: 14px;
     display: inline-block;
+}
+.coffee-title {
+    color: #ffffff; /* ensure always visible */
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(255, 215, 179, 0.35);
 }
 
 .thank-title .word {
@@ -2331,6 +2394,80 @@ h2.section-title::after {
     opacity: 0;
     animation: fadeInUp 0.7s ease forwards;
     animation-delay: 0.6s;
+}
+
+/* Coffee divider */
+.coffee-divider {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 18px 0;
+    opacity: 0;
+    animation: fadeInUp 0.7s ease forwards;
+    animation-delay: 0.75s;
+}
+.coffee-divider .bean { filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
+.coffee-divider .line {
+    width: 90px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.45), rgba(255,255,255,0));
+    border-radius: 2px;
+}
+
+/* Coffee chips */
+.coffee-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fadeInUp 0.7s ease forwards;
+    animation-delay: 0.9s;
+}
+.coffee-chip {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    letter-spacing: .2px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    box-shadow: 0 6px 16px rgba(0,0,0,.25);
+}
+.coffee-chip:hover {
+    transform: translateY(-2px) scale(1.03);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 10px 24px rgba(0,0,0,.28);
+}
+
+/* Badges */
+.coffee-badges {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 0.7s ease forwards;
+    animation-delay: 1.05s;
+}
+.coffee-badges .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(67, 40, 24, 0.6), rgba(118, 74, 40, 0.45));
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 22px rgba(0,0,0,.25);
+    font-size: .9rem;
+}
+.coffee-badges .badge span { filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+
+@media (max-width: 480px) {
+    .coffee-badges { flex-wrap: wrap; gap: 8px; }
 }
 
 .thank-actions { display: flex; gap: 12px; justify-content: center; }
