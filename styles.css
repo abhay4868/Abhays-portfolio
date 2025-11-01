@@ -2294,6 +2294,9 @@ h2.section-title::after {
 .thank-emoji span:nth-child(3) { animation-delay: .45s; }
 .thank-emoji span:nth-child(4) { animation-delay: .6s; }
 .thank-emoji span:nth-child(5) { animation-delay: .75s; }
+.thank-emoji span:nth-child(6) { animation-delay: .9s; }
+.thank-emoji span:nth-child(7) { animation-delay: 1.05s; }
+.thank-emoji span:nth-child(8) { animation-delay: 1.2s; }
 
 .coffee-emoji-row span:hover {
     transform: translateY(-4px) rotate(8deg) scale(1.1);
@@ -2519,17 +2522,26 @@ h2.section-title::after {
 }
 
 @media (max-width: 768px) {
-    /* Keep full buttons with labels on mobile */
-    .thank-actions { flex-direction: row; gap: 12px; }
+    /* Side-by-side round icon buttons on mobile */
+    .thank-actions { flex-direction: row; gap: 14px; }
     .thank-actions .btn {
-        min-width: 140px;
-        height: auto;
-        border-radius: 50px;
-        padding: 12px 18px;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        padding: 0;
+        min-width: 0;
         justify-content: center;
     }
-    .thank-actions .btn i { font-size: 1rem; }
-    .thank-actions .btn .btn-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: nowrap; }
+    .thank-actions .btn i { font-size: 1.1rem; }
+    .thank-actions .btn .btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    
+    /* Coffee elements mobile adjustments */
+    .coffee-chips { gap: 8px; }
+    .coffee-chip { font-size: 0.85rem; padding: 6px 10px; }
+    .coffee-badges { flex-wrap: wrap; gap: 8px; }
+    .coffee-badges .badge { font-size: 0.85rem; padding: 6px 10px; }
+    .coffee-divider .line { width: 60px; }
+    .coffee-cup .cup { font-size: clamp(1.5rem, 4vw, 2rem); }
 }
 
 /* Enhanced Profile Styles */
