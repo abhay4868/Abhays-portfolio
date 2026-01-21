@@ -229,9 +229,10 @@ document.querySelectorAll('.section-heading').forEach((heading) => {
     // Split heading into words
     const text = heading.textContent;
     const words = text.split(' ');
-    heading.innerHTML = words.map((word, index) => 
-        `<span class="word" style="transition-delay: ${index * 0.1}s">${word}</span>`
-    ).join(' ');
+    heading.innerHTML = words.map((word, index) => {
+        const extraClass = word === 'ME' ? ' about-me-large' : '';
+        return `<span class="word${extraClass}" style="transition-delay: ${index * 0.1}s">${word}</span>`;
+    }).join(' ');
     
     const headingObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -425,17 +426,23 @@ document.querySelectorAll('a:not(.nav-logo)').forEach(link => {
 // ============================================
 const cursor = document.createElement('div');
 cursor.className = 'custom-cursor';
+cursor.innerHTML = `
+    <div class="smiley-face">
+        <div class="smiley-eyes">
+            <div class="eye left-eye"></div>
+            <div class="eye right-eye"></div>
+        </div>
+        <div class="smiley-mouth"></div>
+    </div>
+`;
 cursor.style.cssText = `
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--text-primary);
-    border-radius: 50%;
     position: fixed;
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     display: none;
+    opacity: 1;
 `;
 document.body.appendChild(cursor);
 
@@ -443,24 +450,38 @@ document.body.appendChild(cursor);
 if (window.matchMedia('(pointer: fine)').matches) {
     cursor.style.display = 'block';
     
-document.addEventListener('mousemove', (e) => {
+    document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
+        cursor.style.opacity = '1';
+    });
+    
+    // Hide cursor when mouse leaves the viewport
+    document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+    });
+    
+    // Also hide when mouse goes outside document bounds
+    document.addEventListener('mouseout', (e) => {
+        if (!e.relatedTarget && !e.toElement) {
+            cursor.style.opacity = '0';
+        }
+    });
+    
+    // Show cursor when mouse enters the document
+    document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
     });
     
     // Interactive elements - enlarge cursor
     const interactiveElements = document.querySelectorAll('a, button, .project-image, .skill-list li, .btn-submit');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
-            cursor.style.width = '40px';
-            cursor.style.height = '40px';
-            cursor.style.borderColor = 'var(--accent)';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
         });
         
         el.addEventListener('mouseleave', () => {
-            cursor.style.width = '20px';
-            cursor.style.height = '20px';
-            cursor.style.borderColor = 'var(--text-primary)';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
         });
     });
 }
