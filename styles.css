@@ -513,6 +513,14 @@ img {
     font-weight: 600;
 }
 
+.projects-i-made {
+    font-size: 80px !important;
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 1;
+    font-weight: 600;
+}
+
 /* ============================================
    ABOUT SECTION
    ============================================ */
@@ -696,10 +704,11 @@ img {
 }
 
 .skills-subtitle {
-    font-size: 0.875rem;
+    font-size: 80px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--text-muted);
+    margin-top: -3rem;
     margin-bottom: var(--spacing-lg);
     font-weight: 500;
     opacity: 0;

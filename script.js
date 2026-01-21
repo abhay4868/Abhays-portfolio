@@ -230,7 +230,12 @@ document.querySelectorAll('.section-heading').forEach((heading) => {
     const text = heading.textContent;
     const words = text.split(' ');
     heading.innerHTML = words.map((word, index) => {
-        const extraClass = word === 'ME' ? ' about-me-large' : '';
+        let extraClass = '';
+        if (word === 'ME') {
+            extraClass = ' about-me-large';
+        } else if (word === 'I' || word === 'MADE') {
+            extraClass = ' projects-i-made';
+        }
         return `<span class="word${extraClass}" style="transition-delay: ${index * 0.1}s">${word}</span>`;
     }).join(' ');
     
