@@ -1,735 +1,130 @@
-// Floating Dots and Connecting Lines Animation
-document.addEventListener('DOMContentLoaded', function() {
-    const dots = document.querySelectorAll('.dot');
-    const svg = document.querySelector('.connections');
+// ============================================
+// EDITORIAL PORTFOLIO - JAVASCRIPT
+// Smooth animations and interactions
+// ============================================
+
+// ============================================
+// PRELOADER
+// ============================================
+(function() {
+    const preloader = document.getElementById('preloader');
+    const counter = document.getElementById('counter');
+    const body = document.body;
     
-    if (dots.length > 0 && svg) {
-        // Create connecting lines between nearby dots
-        function createConnections() {
-            // Clear existing lines
-            svg.innerHTML = `
-                <defs>
-                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:rgba(255, 255, 255, 0.4);stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.1);stop-opacity:0" />
-                    </linearGradient>
-                </defs>
-            `;
-            
-            // Calculate connections between dots
-            for (let i = 0; i < dots.length; i++) {
-                for (let j = i + 1; j < dots.length; j++) {
-                    const dot1 = dots[i];
-                    const dot2 = dots[j];
-                    
-                    const rect1 = dot1.getBoundingClientRect();
-                    const rect2 = dot2.getBoundingClientRect();
-                    
-                    const x1 = (rect1.left + rect1.width / 2) / window.innerWidth * 100;
-                    const y1 = (rect1.top + rect1.height / 2) / window.innerHeight * 100;
-                    const x2 = (rect2.left + rect2.width / 2) / window.innerWidth * 100;
-                    const y2 = (rect2.top + rect2.height / 2) / window.innerHeight * 100;
-                    
-                    // Calculate distance
-                    const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                    
-                    // Only connect dots that are close enough
-                    if (distance < 30) {
-                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                        line.setAttribute('x1', x1);
-                        line.setAttribute('y1', y1);
-                        line.setAttribute('x2', x2);
-                        line.setAttribute('y2', y2);
-                        line.setAttribute('stroke', 'url(#lineGradient)');
-                        line.setAttribute('stroke-width', '1');
-                        line.setAttribute('stroke-opacity', '0.6');
-                        line.style.animation = 'pulseLine 3s ease-in-out infinite';
-                        line.style.animationDelay = Math.random() * 3 + 's';
-                        
-                        svg.appendChild(line);
-                    }
-                }
-            }
-        }
-        
-        // Create initial connections
-        createConnections();
-        
-        // Update connections on window resize
-        window.addEventListener('resize', createConnections);
-        
-        // Update connections periodically for dynamic effect
-        setInterval(createConnections, 5000);
-    }
-});
-
-// Mobile Navigation Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    }));
-}
-
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Navbar background change on scroll
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.15)';
-    } else {
-        navbar.style.background = 'white';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    }
-});
-
-// Active navigation link highlighting
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.nav-link');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// Simple Project Cards Slide Animation
-document.addEventListener('DOMContentLoaded', function() {
-    const projectCards = document.querySelectorAll('.project-card');
-    let hasAnimated = false;
-
-    // Set initial state for all project cards
-    projectCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateX(100px)';
-        card.style.transition = 'all 0.6s ease';
-    });
-
-    // Simple intersection observer for projects section
-    const projectsSection = document.querySelector('.projects');
+    if (!preloader || !counter) return;
     
-    if (projectsSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !hasAnimated) {
-                    hasAnimated = true;
-                    console.log('Projects section visible - starting slide animation');
-                    
-                    // Animate cards one by one
-                    projectCards.forEach((card, index) => {
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateX(0)';
-                            console.log(`Card ${index + 1} animated`);
-                        }, index * 200); // 200ms delay between each card
-                    });
-                }
-            });
-        }, {
-            threshold: 0.3,
-            rootMargin: '0px 0px -100px 0px'
+    // Block scrolling
+    body.classList.add('preloader-active');
+    
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let animationFrameId = null;
+    let fontsLoaded = false;
+    const startTime = Date.now();
+    
+    // Check font loading
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+            fontsLoaded = true;
         });
-
-        observer.observe(projectsSection);
     }
-
-    // Fallback: If intersection observer doesn't work, animate after 3 seconds
-    setTimeout(() => {
-        if (!hasAnimated) {
-            console.log('Fallback: Starting slide animation');
-            projectCards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateX(0)';
-                }, index * 200);
+    
+    // Simulate loading progress
+    function updateProgress() {
+        // Check if images are loaded
+        const images = document.querySelectorAll('img');
+        let loadedImages = 0;
+        const totalImages = images.length;
+        
+        images.forEach(img => {
+            if (img.complete && img.naturalHeight !== 0) {
+                loadedImages++;
+            } else {
+                img.addEventListener('load', () => {
+                    loadedImages++;
+                }, { once: true });
+            }
+        });
+        
+        // Simulate progress based on time and resources
+        const elapsed = Date.now() - startTime;
+        const timeProgress = Math.min(50, elapsed / 15); // 50% from time (faster)
+        const resourceProgress = totalImages > 0 ? (loadedImages / totalImages) * 40 : 40; // 40% from images
+        const fontProgress = fontsLoaded ? 10 : 0; // 10% from fonts
+        
+        targetProgress = Math.min(100, timeProgress + resourceProgress + fontProgress);
+        
+        // Start animation if not already running
+        if (!animationFrameId) {
+            animateCounter();
+        }
+    }
+    
+    function animateCounter() {
+        if (currentProgress < targetProgress) {
+            const diff = targetProgress - currentProgress;
+            currentProgress += Math.max(1, diff * 0.25); // Faster increment
+            currentProgress = Math.min(currentProgress, targetProgress);
+            counter.textContent = Math.floor(currentProgress);
+            
+            animationFrameId = requestAnimationFrame(() => {
+                animationFrameId = null;
+                animateCounter();
             });
+        } else if (targetProgress >= 100 && currentProgress >= 100) {
+            checkComplete();
         }
-    }, 3000);
-});
-
-// Contact form handling
-const contactForm = document.querySelector('.contact-form form');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    }
+    
+    function checkComplete() {
+        counter.textContent = '100';
+        animationFrameId = null;
         
-        // Get form data
-        const formData = new FormData(contactForm);
-        const firstName = contactForm.querySelector('input[placeholder="First Name"]').value;
-        const lastName = contactForm.querySelector('input[placeholder="Last Name"]').value;
-        const phone = contactForm.querySelector('input[placeholder="Phone No."]').value;
-        const email = contactForm.querySelector('input[type="email"]').value;
-        const productType = contactForm.querySelector('select').value;
-        const address = contactForm.querySelector('input[placeholder="Address"]').value;
-        const city = contactForm.querySelector('input[placeholder="City"]').value;
-        
-        // Simple validation
-        if (!firstName || !lastName || !phone || !email || !productType || !address || !city) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-        
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-        
-        // Phone validation
-        const phoneRegex = /^[0-9]{10}$/;
-        if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
-            showNotification('Please enter a valid 10-digit phone number', 'error');
-            return;
-        }
-        
-        // Simulate form submission
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.textContent = 'Submitting...';
-        submitBtn.disabled = true;
-        
-        // Simulate API call
+        // Hold at 100% for 300ms
         setTimeout(() => {
-            showNotification('Thank you for your enquiry! I\'ll get back to you within 24 hours.', 'success');
-            contactForm.reset();
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 2000);
-    });
-}
-
-// Notification system
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
-    
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 5px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        z-index: 10000;
-        max-width: 400px;
-        animation: slideInRight 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Close button functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.remove();
-    });
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 5000);
-}
-
-// Add CSS for notification animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    .notification-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    
-    .notification-close {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        margin-left: 15px;
-    }
-`;
-document.head.appendChild(style);
-
-// Typing animation for hero title
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
-
-// Initialize typing animation when page loads
-window.addEventListener('load', () => {
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        // Add a subtle animation to the hero title
-        heroTitle.style.opacity = '0';
-        heroTitle.style.transform = 'translateY(30px)';
-        
-        setTimeout(() => {
-            heroTitle.style.transition = 'all 0.8s ease';
-            heroTitle.style.opacity = '1';
-            heroTitle.style.transform = 'translateY(0)';
+            // Fade out and slide up
+            preloader.classList.add('hide');
+            
+            // Remove from DOM after animation
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                body.classList.remove('preloader-active');
+                
+                // Trigger main site animations
+                window.dispatchEvent(new Event('preloaderComplete'));
+            }, 600);
         }, 300);
     }
-});
-
-// Parallax effect for hero section - disabled on small screens to avoid off-screen jitter
-function handleHeroParallax() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-
-    const isSmall = window.matchMedia('(max-width: 768px)').matches;
-    if (isSmall) {
-        hero.style.transform = 'translateY(0)';
-        window.removeEventListener('scroll', parallaxScrollHandler);
-        return;
-    }
-    window.addEventListener('scroll', parallaxScrollHandler);
-}
-
-function parallaxScrollHandler() {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    const rate = scrolled * -0.3;
-    hero.style.transform = `translateY(${rate}px)`;
-}
-
-window.addEventListener('load', handleHeroParallax);
-window.addEventListener('resize', handleHeroParallax);
-
-// Service cards hover effect removed to avoid interfering with flip
-
-// Project cards 3D tilt effect
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-    });
-});
-
-// Enable touch-activated hover effects for mobile (mirror desktop hover)
-function enableTouchHover(selector) {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(el => {
-        // Add on touchstart
-        el.addEventListener('touchstart', () => {
-            // Remove from siblings within same scroller/grid to avoid many active states
-            const siblings = el.parentElement ? el.parentElement.querySelectorAll(selector) : [];
-            siblings.forEach(s => { if (s !== el) s.classList.remove('touch-active'); });
-            el.classList.add('touch-active');
-        }, { passive: true });
-
-        // Remove on touchend after a short delay to let animation show
-        el.addEventListener('touchend', () => {
-            setTimeout(() => el.classList.remove('touch-active'), 180);
-        }, { passive: true });
-
-        // Fallback: toggle on click for devices that fire click only
-        el.addEventListener('click', () => {
-            el.classList.toggle('touch-active');
-            setTimeout(() => el.classList.remove('touch-active'), 220);
-        });
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    enableTouchHover('.service-card');
-    enableTouchHover('.project-card');
-    enableTouchHover('.cert-card');
-    // Enable touch-activated hover for skill items on mobile
-    enableTouchHover('.skill-item');
-    // Enable touch-activated hover for testimonial cards
-    enableTouchHover('.testimonial-card');
-    // Enable touch-activated hover for profile cards (about section)
-    enableTouchHover('.profile-card');
-
-    // Touch-friendly hero image scale (desktop wrapper + mobile inline image)
-    const heroWrapper = document.querySelector('.hero-image-wrapper');
-    if (heroWrapper) {
-        const activate = () => {
-            heroWrapper.classList.add('touch-active');
-            setTimeout(() => heroWrapper.classList.remove('touch-active'), 400);
-        };
-        heroWrapper.addEventListener('touchstart', activate, { passive: true });
-        heroWrapper.addEventListener('click', activate);
-    }
-
-    const mobileHeroImg = document.querySelector('.mobile-hero-image .hero-profile-image');
-    if (mobileHeroImg) {
-        const activate = () => {
-            mobileHeroImg.classList.add('touch-active');
-            setTimeout(() => mobileHeroImg.classList.remove('touch-active'), 400);
-        };
-        mobileHeroImg.addEventListener('touchstart', activate, { passive: true });
-        mobileHeroImg.addEventListener('click', activate);
-    }
-
-    // Cursor-follow hover for skill cards (white glow + tilt)
-    const skillItems = document.querySelectorAll('.skill-item');
-    skillItems.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            // Move white glow pseudo-element via CSS variables
-            card.style.setProperty('--glowX', `${x - 70}px`);
-            card.style.setProperty('--glowY', `${y - 70}px`);
-
-            // Subtle tilt towards cursor
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 18;
-            const rotateY = (centerX - x) / 18;
-            card.style.transform = `translateY(-6px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            // Hide glow and reset transform
-            card.style.setProperty('--glowX', `-9999px`);
-            card.style.setProperty('--glowY', `-9999px`);
-            card.style.transform = '';
-        });
-    });
-
-    // Trigger contact line animations when contact section becomes visible
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-        const contactObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Allow animations to run via CSS
-                    contactSection.classList.add('contact-animate-start');
-                    // Make sure delays are set
-                    contactSection.querySelectorAll('.contact-anim-line').forEach(el => {
-                        const delayAttr = el.getAttribute('data-delay');
-                        if (delayAttr) el.style.setProperty('--delay', delayAttr + 'ms');
-                    });
-                    contactObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.25, rootMargin: '0px 0px -60px 0px' });
-        contactObserver.observe(contactSection);
-    }
-
-    // Removed projects mobile slider nav
-
-    // Tap/keyboard to flip service cards (scoped to single card, no bubbling)
-    document.querySelectorAll('.service-card').forEach(card => {
-        const isMobile = window.matchMedia('(hover: none), (max-width: 768px)').matches;
-        const toggle = (e) => {
-            e.stopPropagation();
-            if (isMobile) {
-                // On mobile: persistent toggle, and close others
-                document.querySelectorAll('.service-card.touch-active').forEach(other => {
-                    if (other !== card) other.classList.remove('touch-active');
-                });
-                card.classList.toggle('touch-active');
-            } else {
-                // On desktop: temporary toggle
-                card.classList.add('touch-active');
-                setTimeout(() => card.classList.remove('touch-active'), 1200);
-            }
-        };
-        card.addEventListener('click', toggle);
-        card.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggle(e);
-            }
-        });
-        // Support touchstart explicitly for faster response
-        card.addEventListener('touchstart', (e) => {
-            toggle(e);
-        }, { passive: true });
-    });
-});
-
-// Coffee emoji sparkle pulse
-document.addEventListener('DOMContentLoaded', () => {
-    const coffeeRow = document.querySelector('.coffee-emoji-row');
-    if (!coffeeRow) return;
-    const emojis = Array.from(coffeeRow.querySelectorAll('span'));
-    setInterval(() => {
-        const pick = emojis[Math.floor(Math.random() * emojis.length)];
-        if (!pick) return;
-        pick.style.transition = 'transform 0.4s ease, filter 0.4s ease';
-        pick.style.transform = 'translateY(-6px) scale(1.15) rotate(8deg)';
-        pick.style.filter = 'drop-shadow(0 6px 12px rgba(255,255,255,0.25))';
-        setTimeout(() => {
-            pick.style.transform = '';
-            pick.style.filter = '';
-        }, 450);
-    }, 1600);
-});
-
-// Gentle pulsing for coffee chips
-document.addEventListener('DOMContentLoaded', () => {
-    const chips = document.querySelectorAll('.coffee-chip');
-    if (!chips.length) return;
-    let idx = 0;
-    setInterval(() => {
-        const chip = chips[idx % chips.length];
-        chip.style.transition = 'transform .35s ease, box-shadow .35s ease';
-        chip.style.transform = 'translateY(-3px) scale(1.04)';
-        chip.style.boxShadow = '0 12px 28px rgba(0,0,0,.28)';
-        setTimeout(() => {
-            chip.style.transform = '';
-            chip.style.boxShadow = '';
-        }, 380);
-        idx++;
-    }, 1400);
-});
-
-// Smooth reveal animation for sections
-const revealElements = document.querySelectorAll('section');
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+    
+    // Start progress simulation immediately
+    updateProgress();
+    
+    // Update progress periodically (faster updates)
+    const progressInterval = setInterval(() => {
+        updateProgress();
+        if (currentProgress >= 100 && targetProgress >= 100) {
+            clearInterval(progressInterval);
         }
-    });
-}, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-});
-
-revealElements.forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(30px)';
-    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    revealObserver.observe(element);
-});
-
-// Staggered reveal for My Skills cards
-document.addEventListener('DOMContentLoaded', () => {
-    const skillsSection = document.getElementById('skills');
-    if (!skillsSection) return;
-    const skillItems = skillsSection.querySelectorAll('.skill-item');
-
-    const skillsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                skillsSection.classList.add('skills-visible');
-                // Staggered delays
-                skillItems.forEach((item, idx) => {
-                    item.style.transitionDelay = `${Math.min(idx * 80, 600)}ms`;
-                });
-                skillsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2, rootMargin: '0px 0px -80px 0px' });
-
-    skillsObserver.observe(skillsSection);
-});
-
-// Counter animation for stats
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-item h3');
-    counters.forEach(counter => {
-        const target = parseInt(counter.textContent.replace(/\D/g, ''));
-        const increment = target / 100;
-        let current = 0;
-        
-        const updateCounter = () => {
-            if (current < target) {
-                current += increment;
-                counter.textContent = Math.ceil(current) + (counter.textContent.includes('%') ? '%' : '+');
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = target + (counter.textContent.includes('%') ? '%' : '+');
-            }
-        };
-        
-        updateCounter();
-    });
-}
-
-// Trigger counter animation when stats section is visible
-const statsSection = document.querySelector('.stats');
-if (statsSection) {
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
+    }, 30);
     
-    statsObserver.observe(statsSection);
-}
-
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-    
-    // Add a subtle fade-in effect to the entire page
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    
+    // Fallback: ensure we reach 100% even if resources load slowly (faster timeout)
     setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
+        targetProgress = 100;
+        if (!animationFrameId) {
+            animateCounter();
+        }
+    }, 1200);
+})();
 
-    // Trigger thank-you confetti when section becomes visible
-    const thankSection = document.getElementById('thank-you');
-    if (thankSection) {
-        const confetti = thankSection.querySelector('.confetti');
-        const emojis = thankSection.querySelectorAll('.thank-emoji span');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Restart confetti animation by cloning nodes
-                    if (confetti) {
-                        confetti.querySelectorAll('span').forEach((p, idx) => {
-                            p.style.animation = 'none';
-                            // force reflow
-                            void p.offsetWidth;
-                            p.style.animation = '';
-                        });
-                    }
-                    // Restart emoji animation
-                    if (emojis) {
-                        emojis.forEach(e => {
-                            e.style.animation = 'none';
-                            void e.offsetWidth;
-                            e.style.animation = '';
-                        });
-                    }
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.3 });
-        observer.observe(thankSection);
-    }
-});
-
-// Console welcome message
-console.log(`
-🚀 Welcome to Abhay Tiwari's Portfolio!
-💻 Built with HTML, CSS, and JavaScript
-🎨 Modern, responsive design inspired by Wow Ceramics
-📱 Mobile-friendly interface
-✨ Interactive animations and effects
-
-Contact: abhay.tiwari@email.com
-GitHub: github.com/abhay4868
-`);
-
-// Performance optimization: Debounce scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Apply debouncing to scroll events
-const debouncedScrollHandler = debounce(() => {
-    // Your scroll handling code here
-}, 10);
-
-window.addEventListener('scroll', debouncedScrollHandler);
-
-// Add smooth scrolling to all internal links
+// ============================================
+// SMOOTH SCROLL
+// ============================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+            const offsetTop = target.offsetTop - 80;
             window.scrollTo({
                 top: offsetTop,
                 behavior: 'smooth'
@@ -738,266 +133,445 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Add a subtle pulse animation to the CTA button
-const ctaButton = document.querySelector('.nav-cta .btn');
-if (ctaButton) {
-    setInterval(() => {
-        ctaButton.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-            ctaButton.style.transform = 'scale(1)';
-        }, 200);
-    }, 3000);
-}
-
-// Interactive Snowfall Effect - Simple and Direct
-let mouseX = 0;
-let mouseY = 0;
-
-// Track mouse movement
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+// ============================================
+// NAVBAR BACKGROUND ON SCROLL
+// ============================================
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.nav');
+    if (window.scrollY > 50) {
+        nav.style.background = 'rgba(253, 251, 247, 0.98)';
+        nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+    } else {
+        nav.style.background = 'rgba(253, 251, 247, 0.95)';
+        nav.style.boxShadow = 'none';
+    }
 });
 
-// Create individual snowflakes that react to cursor
-function createInteractiveSnowflakes() {
-    // Create 50 individual snowflakes
-    for (let i = 0; i < 50; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.style.cssText = `
-            position: fixed;
-            width: ${Math.random() * 4 + 2}px;
-            height: ${Math.random() * 4 + 2}px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            left: ${Math.random() * 100}%;
-            top: ${Math.random() * 100}%;
-            opacity: ${Math.random() * 0.8 + 0.2};
-            animation: snowfall-individual ${Math.random() * 18 + 14}s linear infinite; /* slower */
-        `;
-        
-        document.body.appendChild(snowflake);
-    }
+// ============================================
+// SCROLL REVEAL ANIMATIONS (Intersection Observer)
+// ============================================
+const revealObserverOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+            // Add staggered delay based on index
+            const delay = index * 100; // 100ms stagger
+            setTimeout(() => {
+                entry.target.classList.add('revealed');
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }, delay);
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, revealObserverOptions);
+
+// Observe all main sections
+document.querySelectorAll('section').forEach((section, index) => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(30px)';
+    section.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+    revealObserver.observe(section);
+});
+
+// Observe project items with staggered delays
+document.querySelectorAll('.project-item').forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(30px)';
+    item.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`;
+    
+    const projectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                projectObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+    
+    projectObserver.observe(item);
+});
+
+// Observe skill categories
+document.querySelectorAll('.skill-category').forEach((category, index) => {
+    category.style.opacity = '0';
+    category.style.transform = 'translateY(30px)';
+    category.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.2}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.2}s`;
+    
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                
+                // Animate subtitle
+                const subtitle = document.querySelector('.skills-subtitle');
+                if (subtitle && !subtitle.classList.contains('animate')) {
+                    subtitle.classList.add('animate');
+                }
+                
+                skillObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    skillObserver.observe(category);
+});
+
+// Observe section headings
+document.querySelectorAll('.section-heading').forEach((heading) => {
+    // Split heading into words
+    const text = heading.textContent;
+    const words = text.split(' ');
+    heading.innerHTML = words.map((word, index) => 
+        `<span class="word" style="transition-delay: ${index * 0.1}s">${word}</span>`
+    ).join(' ');
+    
+    const headingObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                headingObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    headingObserver.observe(heading);
+});
+
+// Observe contact section
+const contactSection = document.querySelector('#contact');
+    if (contactSection) {
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                const contactInfo = entry.target.querySelector('.contact-info');
+                const contactHeadline = entry.target.querySelector('.contact-headline');
+                
+                if (contactInfo) {
+                    contactInfo.classList.add('animate');
+                }
+                if (contactHeadline) {
+                    contactHeadline.classList.add('animate');
+                }
+                
+                contactObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    contactObserver.observe(contactSection);
 }
 
-// Create snowfall animation for individual snowflakes
-const snowflakeStyle = document.createElement('style');
-snowflakeStyle.textContent = `
-    @keyframes snowfall-individual {
-        0% {
-            transform: translateY(100vh) translateX(0);
-        }
-        100% {
-            transform: translateY(-100vh) translateX(0);
-        }
-    }
-`;
-document.head.appendChild(snowflakeStyle);
-
-// Initialize snowflakes
-createInteractiveSnowflakes();
-
-// Make snowflakes react to cursor
-document.addEventListener('mousemove', (e) => {
-    const snowflakes = document.querySelectorAll('.snowflake');
+// Observe about text
+const aboutText = document.querySelector('.about-text');
+if (aboutText) {
+    const aboutObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                aboutObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
     
-    snowflakes.forEach(snowflake => {
-        const rect = snowflake.getBoundingClientRect();
-        const snowflakeX = rect.left + rect.width / 2;
-        const snowflakeY = rect.top + rect.height / 2;
-        
-        const distance = Math.sqrt(
-            Math.pow(e.clientX - snowflakeX, 2) + 
-            Math.pow(e.clientY - snowflakeY, 2)
-        );
-        
-        if (distance < 100) {
-            const force = (100 - distance) / 100;
-            const angle = Math.atan2(e.clientY - snowflakeY, e.clientX - snowflakeX);
-            
-            const pushX = Math.cos(angle) * force * 30;
-            const pushY = Math.sin(angle) * force * 30;
-            
-            snowflake.style.transform = `translate(${pushX}px, ${pushY}px)`;
-            snowflake.style.transition = 'transform 0.1s ease';
-        } else {
-            snowflake.style.transform = 'translate(0, 0)';
-            snowflake.style.transition = 'transform 0.3s ease';
+    aboutObserver.observe(aboutText);
+}
+
+// Observe about image
+const aboutImage = document.querySelector('.about-image');
+if (aboutImage) {
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                imageObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    imageObserver.observe(aboutImage);
+}
+
+// ============================================
+// HERO ANIMATIONS ON LOAD
+// ============================================
+function startHeroAnimations() {
+    const heroName = document.querySelector('.hero-name');
+    const heroRole = document.querySelector('.hero-role');
+    const heroIntro = document.querySelector('.hero-intro');
+    const heroLinks = document.querySelector('.hero-links');
+    const coffeeMug = document.querySelector('.coffee-mug-container');
+    
+    setTimeout(() => {
+        if (heroName) heroName.classList.add('animate');
+    }, 100);
+
+    setTimeout(() => {
+        if (heroRole) heroRole.classList.add('animate');
+    }, 300);
+    
+    setTimeout(() => {
+        if (heroIntro) heroIntro.classList.add('animate');
+    }, 500);
+    
+    setTimeout(() => {
+        if (heroLinks) heroLinks.classList.add('animate');
+    }, 700);
+    
+    setTimeout(() => {
+        if (coffeeMug) {
+            coffeeMug.style.opacity = '0';
+            coffeeMug.style.transform = 'translateX(30px) scale(0.9)';
+            coffeeMug.style.transition = 'opacity 0.8s ease 0.9s, transform 0.8s ease 0.9s';
+            coffeeMug.style.opacity = '1';
+            coffeeMug.style.transform = 'translateX(0) scale(1)';
         }
+    }, 900);
+}
+
+// Start hero animations after preloader completes
+window.addEventListener('preloaderComplete', startHeroAnimations);
+
+// Fallback: if preloader doesn't run, start animations on load
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (!preloader || preloader.style.display === 'none') {
+        startHeroAnimations();
+    }
+});
+
+// ============================================
+// HOVER INTERACTIONS
+// ============================================
+
+// Buttons & Links - Scale up and color shift
+document.querySelectorAll('.btn-submit, .hero-link, .contact-link, .social-link').forEach(element => {
+    element.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.03) translateY(-2px)';
+        this.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+    
+    element.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1) translateY(0)';
     });
 });
 
-// Also make the global snow layers react
-document.addEventListener('mousemove', (e) => {
-    const globalSnow = document.querySelector('body::before');
-    if (globalSnow) {
-        const deltaX = (e.clientX - window.innerWidth / 2) / 20;
-        const deltaY = (e.clientY - window.innerHeight / 2) / 20;
-
-        document.body.style.setProperty('--mouse-x', `${deltaX}px`);
-        document.body.style.setProperty('--mouse-y', `${deltaY}px`);
-    }
+// Project thumbnails - Zoom effect
+document.querySelectorAll('.project-image img').forEach(img => {
+    img.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.08)';
+        this.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+    
+    img.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+    });
 });
 
-/* Cursor Tracker - REMOVED */
-
-// Dynamic Text Animation Controller
-function initDynamicText() {
-    const words = document.querySelectorAll('.dynamic-word');
-    let currentIndex = 0;
+// Skill list items - Scale up
+document.querySelectorAll('.skill-list li').forEach(item => {
+    item.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.05) translateY(-2px)';
+        this.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
     
-    function showNextWord() {
-        // Remove active class from all words
-        words.forEach(word => {
-            word.classList.remove('active', 'fade-out');
+    item.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1) translateY(0)';
+    });
+});
+
+// ============================================
+// ANIMATED UNDERLINES ON TEXT LINKS
+// ============================================
+document.querySelectorAll('a:not(.nav-logo)').forEach(link => {
+    // Create underline element
+    const underline = document.createElement('span');
+    underline.className = 'link-underline';
+    underline.style.cssText = `
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    `;
+    
+    // Make link position relative
+    link.style.position = 'relative';
+    link.style.display = 'inline-block';
+    
+    // Add underline
+    link.appendChild(underline);
+    
+    link.addEventListener('mouseenter', function() {
+        underline.style.width = '100%';
+    });
+    
+    link.addEventListener('mouseleave', function() {
+        underline.style.width = '0';
+    });
+});
+
+// ============================================
+// CUSTOM CURSOR (Micro-interaction)
+// ============================================
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+cursor.style.cssText = `
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-primary);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    display: none;
+`;
+document.body.appendChild(cursor);
+
+// Show cursor on desktop only
+if (window.matchMedia('(pointer: fine)').matches) {
+    cursor.style.display = 'block';
+    
+document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+    
+    // Interactive elements - enlarge cursor
+    const interactiveElements = document.querySelectorAll('a, button, .project-image, .skill-list li, .btn-submit');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.width = '40px';
+            cursor.style.height = '40px';
+            cursor.style.borderColor = 'var(--accent)';
         });
         
-        // Add fade-out class to current word
-        if (words[currentIndex - 1]) {
-            words[currentIndex - 1].classList.add('fade-out');
-        }
-        
-        // Show current word
-        if (words[currentIndex]) {
-            words[currentIndex].classList.add('active');
-        }
-        
-        // Move to next word
-        currentIndex = (currentIndex + 1) % words.length;
-    }
-    
-    // Start the animation
-    showNextWord();
-    
-    // Set interval to change words every 2 seconds
-    setInterval(showNextWord, 2000);
+        el.addEventListener('mouseleave', () => {
+            cursor.style.width = '20px';
+            cursor.style.height = '20px';
+            cursor.style.borderColor = 'var(--text-primary)';
+        });
+    });
 }
 
-// Initialize dynamic text when DOM is loaded
-document.addEventListener('DOMContentLoaded', initDynamicText);
-
-// Contact Form Handler
-function initContactForm() {
-    const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
+// ============================================
+// CONTACT FORM HANDLING
+// ============================================
+const contactForm = document.getElementById('contactForm');
     const formStatus = document.getElementById('formStatus');
     
-    if (!form || !submitBtn || !formStatus) return;
-    
-    form.addEventListener('submit', async (e) => {
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        const submitBtn = contactForm.querySelector('.btn-submit');
+        const originalText = submitBtn.textContent;
         
         // Show loading state
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
-        formStatus.className = 'form-status loading';
-        formStatus.textContent = 'Sending your message...';
+        formStatus.className = 'form-status';
+        formStatus.textContent = '';
+        formStatus.style.display = 'none';
         
         // Get form data
-        const formData = new FormData(form);
+        const formData = new FormData(contactForm);
         const data = {
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
-            phone: formData.get('phone'),
             email: formData.get('email'),
+            phone: formData.get('phone'),
             service: formData.get('service'),
-            address: formData.get('address'),
-            city: formData.get('city'),
             message: formData.get('message')
         };
         
-        try {
-            // Using EmailJS service (free and reliable)
-            const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    service_id: 'service_portfolio',
-                    template_id: 'template_contact',
-                    user_id: 'YOUR_USER_ID',
-                    template_params: {
-                        from_name: `${data.firstName} ${data.lastName}`,
-                        from_email: data.email,
-                        phone: data.phone,
-                        service: data.service,
-                        address: data.address,
-                        city: data.city,
-                        message: data.message,
-                        to_email: 'abhu9513@gmail.com'
-                    }
-                })
-            });
-            
-            if (response.ok) {
-                // Success
-                formStatus.className = 'form-status success';
-                formStatus.textContent = 'Thank you! Your message has been sent successfully.';
-                form.reset();
-            } else {
-                throw new Error('Failed to send email');
-            }
-            
-        } catch (error) {
-            // Error - fallback to mailto
-            const subject = `New Contact Form Submission from ${data.firstName} ${data.lastName}`;
-            const body = `
-Name: ${data.firstName} ${data.lastName}
-Email: ${data.email}
-Phone: ${data.phone}
-Service: ${data.service}
-Address: ${data.address}
-City: ${data.city}
-Message: ${data.message}
-            `.trim();
-            
-            const mailtoLink = `mailto:abhu9513@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(mailtoLink);
-            
-            formStatus.className = 'form-status success';
-            formStatus.textContent = 'Opening your email client to send the message...';
-            form.reset();
+        // Validate
+        if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.service || !data.message) {
+            formStatus.className = 'form-status error';
+            formStatus.textContent = 'Please fill in all fields.';
+            formStatus.style.display = 'block';
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            return;
         }
         
-        // Reset button
-        submitBtn.textContent = 'Submit Form';
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            formStatus.className = 'form-status error';
+            formStatus.textContent = 'Please enter a valid email address.';
+            formStatus.style.display = 'block';
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            return;
+        }
+        
+        // Simulate form submission
+        setTimeout(() => {
+            formStatus.className = 'form-status success';
+            formStatus.textContent = 'Thank you! Your message has been sent. I\'ll get back to you soon.';
+            formStatus.style.display = 'block';
+            contactForm.reset();
+            submitBtn.textContent = originalText;
         submitBtn.disabled = false;
+        }, 1500);
     });
 }
 
-// Initialize contact form when DOM is loaded
-document.addEventListener('DOMContentLoaded', initContactForm);
+// ============================================
+// ACTIVE NAVIGATION LINK HIGHLIGHTING
+// ============================================
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
 
-// Add CSS for interactive snow animation
-const interactiveSnowStyle = document.createElement('style');
-interactiveSnowStyle.textContent = `
-    @keyframes snowfall-interactive {
-        0% {
-            transform: translateY(-100vh) translateX(0);
+window.addEventListener('scroll', () => {
+    let current = '';
+    const scrollPosition = window.scrollY + 100;
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            current = section.getAttribute('id');
         }
-        100% {
-            transform: translateY(100vh) translateX(0);
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
         }
-    }
+    });
+});
+
+// ============================================
+// SMOOTH PAGE LOAD
+// ============================================
+window.addEventListener('load', () => {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
     
-    .interactive-snow {
-        animation: snowfall-interactive 7s linear infinite;
-    }
-    
-    /* Hover effects for sections */
-    section:hover::before {
-        transform: translateX(5px) translateY(3px) !important;
-        transition: transform 0.2s ease;
-    }
-    
-    .hero:hover::before,
-    .hero:hover::after {
-        transform: translateX(8px) translateY(5px) !important;
-        transition: transform 0.2s ease;
-    }
-`;
-document.head.appendChild(interactiveSnowStyle);
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
+});
+
+// ============================================
+// CONSOLE MESSAGE
+// ============================================
+console.log(`
+✨ Abhay Tiwari — Portfolio
+Built with HTML, CSS, and JavaScript
+Editorial design with smooth animations
+`);

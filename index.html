@@ -3,195 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abhay Tiwari - Full Stack Developer</title>
+    <title>Abhay Tiwari — Full Stack Developer</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Full Page Animated Background -->
-    <div class="video-background">
-        <div class="animated-bg">
-            <div class="floating-dots">
-                <div class="dot dot-1"></div>
-                <div class="dot dot-2"></div>
-                <div class="dot dot-3"></div>
-                <div class="dot dot-4"></div>
-                <div class="dot dot-5"></div>
-                <div class="dot dot-6"></div>
-                <div class="dot dot-7"></div>
-                <div class="dot dot-8"></div>
-                <div class="dot dot-9"></div>
-                <div class="dot dot-10"></div>
-                <div class="dot dot-11"></div>
-                <div class="dot dot-12"></div>
-                <div class="dot dot-13"></div>
-                <div class="dot dot-14"></div>
-                <div class="dot dot-15"></div>
-            </div>
-            <svg class="connections" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:rgba(255, 255, 255, 0.4);stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:rgba(255, 255, 255, 0.1);stop-opacity:0" />
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-        <div class="video-overlay"></div>
-    </div>
-    
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container">
-            <div class="top-bar-content">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-counter">
+                <span class="counter-number" id="counter">0</span>
+                <span class="counter-percent">%</span>
             </div>
         </div>
     </div>
 
-    <!-- Navigation -->
-    <nav class="navbar">
+    <!-- Minimal Navigation -->
+    <nav class="nav">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h2>Abhay Tiwari</h2>
-            </div>
+            <a href="#home" class="nav-logo">Abhay Tiwari</a>
         <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#home" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="#about" class="nav-link">About</a>
-            </li>
-            <li class="nav-item">
-                <a href="#skills" class="nav-link">Skills</a>
-            </li>
-            <li class="nav-item">
-                <a href="#services" class="nav-link">Services</a>
-            </li>
-            <li class="nav-item">
-                <a href="#projects" class="nav-link">Projects</a>
-            </li>
-            <li class="nav-item">
-                <a href="#certifications" class="nav-link">Certifications</a>
-            </li>
-            <li class="nav-item">
-                <a href="#contact" class="nav-link">Contact</a>
-            </li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
-            <div class="nav-cta">
-                <a href="assets/images/pdfs/resume.pdf" target="_blank" class="btn btn-secondary">Resume</a>
-                <a href="#contact" class="btn btn-primary">Get Quote</a>
-            </div>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="hero-overlay"></div>
-        </div>
         <div class="hero-container">
             <div class="hero-content">
                 <div class="hero-left">
-                    <div class="hero-greeting">
-                        <span class="wave">👋</span> Hello, I'm
-                    </div>
-                    <h1 class="hero-title">
-                        <span class="hero-name">Abhay Tiwari</span>
-                    </h1>
-                    <div class="hero-subtitle">
-                        <span class="subtitle-text">I'm a</span>
-                        <span class="dynamic-text">
-                            <span class="dynamic-word">Full Stack Developer</span>
-                            <span class="dynamic-word">Software Engineer</span>
-                            <span class="dynamic-word">Problem Solver</span>
-                        </span>
-                    </div>
-                    <p class="hero-description">
-                        I build things that matter. From metal detector drones to e-commerce platforms, 
-                        I love turning ideas into reality. Currently crafting digital experiences 
-                        while sipping coffee and collaborating with amazing teams.
-                    </p>
-                    <!-- Mobile-only hero image placed above CTA -->
-                    <div class="mobile-hero-image">
-                        <img src="assets/images/abhay image 1.jpeg?v=2" alt="Abhay Tiwari" class="hero-profile-image">
-                    </div>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">
-                    <span>Let's Work Together</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            
-            <!-- Contact & Social Media Links -->
-            <div class="hero-contact-social">
-                <div class="hero-email">
-                    <a href="mailto:abhu9513@gmail.com" class="email-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>abhu9513@gmail.com</span>
-                    </a>
-                </div>
-                
-                <div class="hero-social-links">
-                    <a href="https://github.com/abhay4868" target="_blank" title="GitHub" class="social-link">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/abhay-tiwari-29650728b/" target="_blank" title="LinkedIn" class="social-link">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="https://www.instagram.com/abhay.in__/" target="_blank" title="Instagram" class="social-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
+                    <h1 class="hero-name">Ab<span class="flip-letter">h</span>ay T<span class="flip-letter">i</span>war<span class="flip-letter">i</span></h1>
+                    <p class="hero-role">Full Stack Developer</p>
+                    <p class="hero-intro">I build things that matter. From metal detector drones to e-commerce platforms, I love turning ideas into reality. Fueled by coffee ☕ and clean code.</p>
+                    <div class="hero-links">
+                        <a href="mailto:abhu9513@gmail.com" class="hero-link">Email</a>
+                        <a href="https://github.com/abhay4868" target="_blank" class="hero-link">GitHub</a>
+                        <a href="https://www.linkedin.com/in/abhay-tiwari-29650728b/" target="_blank" class="hero-link">LinkedIn</a>
+                        <a href="assets/images/pdfs/resume.pdf" target="_blank" class="hero-link">Resume</a>
             </div>
                 </div>
                 <div class="hero-right">
-                    <div class="hero-image-container">
-                        <div class="hero-image-wrapper">
-                            <img src="assets/images/abhay image 1.jpeg?v=2" 
-                                 alt="Abhay Tiwari" 
-                                 class="hero-profile-image"
-                                 onload="console.log('Hero image loaded successfully');" 
-                                 onerror="console.log('Hero image failed to load'); this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hero-image-fallback" style="display: none;">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-                        </div>
-                        <div class="hero-image-decoration">
-                            <div class="decoration-circle decoration-1"></div>
-                            <div class="decoration-circle decoration-2"></div>
-                            <div class="decoration-circle decoration-3"></div>
+                    <div class="coffee-mug-container">
+                        <img src="assets/images/coffee mug.jpg" alt="Coffee Mug" class="coffee-mug">
+                        <div class="coffee-steam">
+                            <span class="steam steam-1"></span>
+                            <span class="steam steam-2"></span>
+                            <span class="steam steam-3"></span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="hero-stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>10+</h3>
-                    <p>Projects</p>
-                </div>
-                <div class="stat-item">
-                    <h3>5+</h3>
-                    <p>Certificates</p>
-                </div>
-                <div class="stat-item">
-                    <h3>8+</h3>
-                    <p>Happy Clients</p>
-                </div>
-                <div class="stat-item">
-                    <h3>99%</h3>
-                    <p>Up Time</p>
                 </div>
             </div>
         </div>
@@ -199,46 +61,25 @@
 
     <!-- About Section -->
     <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">From Mechanical Dreams to Digital Reality</h2>
+        <div class="content-wrapper">
+            <h2 class="section-heading">About</h2>
             <div class="about-content">
+                <div class="about-images">
                 <div class="about-image">
-                    <div class="ghibli-image-container">
-                        <div class="ghibli-image-main">
-                            <img src="assets/images/abhay image 2.jpg?v=2" 
-                                 alt="Abhay Tiwari" 
-                                 class="ghibli-profile-image"
-                                 onload="console.log('Ghibli image loaded successfully');" 
-                                 onerror="console.log('Ghibli image failed to load'); this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="ghibli-image-fallback" style="display: none;">
-                                <i class="fas fa-user-circle"></i>
+                        <img src="assets/images/abhay image 1.jpg" alt="Abhay Tiwari">
                             </div>
+                    <div class="about-image">
+                        <img src="assets/images/abhay image 2.jpg" alt="Abhay Tiwari">
                         </div>
-                        <div class="ghibli-decoration">
-                            <div class="ghibli-circle ghibli-1"></div>
-                            <div class="ghibli-circle ghibli-2"></div>
-                            <div class="ghibli-circle ghibli-3"></div>
-                            <div class="ghibli-circle ghibli-4"></div>
-                            <div class="ghibli-circle ghibli-5"></div>
-                        </div>
+                    <div class="about-image">
+                        <img src="assets/images/abhay image 3.jpg" alt="Abhay Tiwari">
                     </div>
                 </div>
                 <div class="about-text">
-                    <p>
-                        Started as a mechanical diploma holder, I built a metal detector drone because why not? 
-                        That's when I realized I love creating things that actually work. Now I'm a software developer 
-                        who brings that same hands-on approach to coding.
-                    </p>
-                    <p>
-                        Currently interning at Anocab, I'm working on e-commerce platforms and SRM software. 
-                        I'm fluent in HTML, CSS, JavaScript, React, Java, C++, and I love a good cup of coffee 
-                        while debugging. Teamwork? That's my jam.
-                    </p>
-                    <p>
-                        From my first computer science project (a bank management system) to building modern web apps, 
-                        I believe in clean code, great UI design, and solutions that actually make sense. 
-                        Ready to turn your ideas into something awesome?
-                    </p>
+                    <p class="lead">Started as a mechanical diploma holder, I built a metal detector drone because why not? That's when I realized I love creating things that actually work.</p>
+                    <p>Now I'm a software developer who brings that same hands-on approach to coding. Currently interning at Anocab, I'm working on e-commerce platforms and CRM software.</p>
+                    <p>I'm fluent in HTML, CSS, JavaScript, React, Java, C++, and I love a good cup of coffee while debugging. Teamwork? That's my jam.</p>
+                    <p>From my first computer science project (a bank management system) to building modern web apps, I believe in clean code, great UI design, and solutions that actually make sense. Ready to turn your ideas into something awesome?</p>
                 </div>
             </div>
         </div>
@@ -246,176 +87,37 @@
 
     <!-- Skills Section -->
     <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">My Skills</h2>
-            <div class="skills-content">
-                <div class="skills-category">
-                    <h3>Frontend</h3>
+        <div class="content-wrapper">
+            <h2 class="section-heading">Skills</h2>
+            <p class="skills-subtitle">WHAT I DO</p>
                     <div class="skills-grid">
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/html5" alt="HTML logo">
-                            <span>HTML</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://skillicons.dev/icons?i=css" alt="CSS logo">
-                            <span>CSS</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/javascript" alt="JavaScript logo">
-                            <span>JavaScript</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/react" alt="React logo">
-                            <span>React</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/bootstrap" alt="Bootstrap logo">
-                            <span>Bootstrap</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS logo">
-                            <span>Tailwind CSS</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/nextdotjs" alt="Next.js logo">
-                            <span>Next.js</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/typescript" alt="TypeScript logo">
-                            <span>TypeScript</span>
-                        </div>
-                    </div>
+                <div class="skill-category" data-skill="1">
+                    <div class="skill-number">skill 1/8</div>
+                    <h3 class="skill-category-title">Frontend Development</h3>
+                    <ul class="skill-list">
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>JavaScript</li>
+                        <li>React</li>
+                        <li>Next.js</li>
+                        <li>TypeScript</li>
+                        <li>Tailwind CSS</li>
+                        <li>Bootstrap</li>
+                    </ul>
                 </div>
-                <div class="skills-category">
-                    <h3>Backend & Tools</h3>
-                    <div class="skills-grid">
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/nodedotjs" alt="Node.js logo">
-                            <span>Node.js</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://skillicons.dev/icons?i=java" alt="Java logo">
-                            <span>Java</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/mongodb" alt="MongoDB logo">
-                            <span>MongoDB</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/mysql" alt="MySQL logo">
-                            <span>MySQL</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/docker" alt="Docker logo">
-                            <span>Docker</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/express" alt="Express.js logo">
-                            <span>Express.js</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/git" alt="Git logo">
-                            <span>Git</span>
-                        </div>
-                        <div class="skill-item">
-                            <img class="skill-logo" src="https://cdn.simpleicons.org/cplusplus" alt="C++ logo">
-                            <span>C++</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title">Professional Services</h2>
-            <p class="section-subtitle">I provide comprehensive development and design solutions to bring your ideas to life</p>
-            <div class="services-grid">
-                <div class="service-card" tabindex="0">
-                    <div class="service-card-inner">
-                        <div class="service-card-face service-card-front">
-                            <div class="service-icon">
-                                <img class="service-logo" src="https://cdn.simpleicons.org/html5/ff6b35" alt="Web Development logo">
-                            </div>
-                            <h3>Web Development</h3>
-                        </div>
-                        <div class="service-card-face service-card-back">
-                            <h4>Web Development</h4>
-                            <p>Responsive websites, SEO-ready, fast performance, modern stacks.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-card" tabindex="0">
-                    <div class="service-card-inner">
-                        <div class="service-card-face service-card-front">
-                            <div class="service-icon">
-                                <img class="service-logo" src="https://skillicons.dev/icons?i=vscode" alt="Software Development logo">
-                            </div>
-                            <h3>Software Development</h3>
-                        </div>
-                        <div class="service-card-face service-card-back">
-                            <h4>Software Development</h4>
-                            <p>Custom apps, APIs, integrations, clean architecture, testing.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-card" tabindex="0">
-                    <div class="service-card-inner">
-                        <div class="service-card-face service-card-front">
-                            <div class="service-icon">
-                                <img class="service-logo" src="https://cdn.simpleicons.org/figma/F24E1E" alt="UI/UX Design logo">
-                            </div>
-                            <h3>UI/UX Design</h3>
-                        </div>
-                        <div class="service-card-face service-card-back">
-                            <h4>UI/UX Design</h4>
-                            <p>Clean interfaces, accessible flows, prototyping in Figma.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-card" tabindex="0">
-                    <div class="service-card-inner">
-                        <div class="service-card-face service-card-front">
-                            <div class="service-icon">
-                                <img class="service-logo" src="https://cdn.simpleicons.org/shopify/96BF48" alt="E-Commerce logo">
-                            </div>
-                            <h3>E-Commerce Solutions</h3>
-                        </div>
-                        <div class="service-card-face service-card-back">
-                            <h4>E-Commerce</h4>
-                            <p>Payments, inventory, dashboards, secure and scalable.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-card" tabindex="0">
-                    <div class="service-card-inner">
-                        <div class="service-card-face service-card-front">
-                            <div class="service-icon">
-                                <img class="service-logo" src="https://cdn.simpleicons.org/android/3DDC84" alt="Mobile-First Design logo">
-                            </div>
-                            <h3>Mobile-First Design</h3>
-                        </div>
-                        <div class="service-card-face service-card-back">
-                            <h4>Mobile-First</h4>
-                            <p>Optimized for phones first; fluid, fast, touch-friendly.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-card" tabindex="0">
-                    <div class="service-card-inner">
-                        <div class="service-card-face service-card-front">
-                            <div class="service-icon">
-                                <img class="service-logo" src="https://cdn.simpleicons.org/googleanalytics/F4B400" alt="Digital Solutions logo">
-                            </div>
-                            <h3>Digital Solutions</h3>
-                        </div>
-                        <div class="service-card-face service-card-back">
-                            <h4>Digital Solutions</h4>
-                            <p>Analytics, SEO, automation and performance optimization.</p>
-                        </div>
-                    </div>
+                <div class="skill-category" data-skill="2">
+                    <div class="skill-number">skill 2/8</div>
+                    <h3 class="skill-category-title">Backend & Tools</h3>
+                    <ul class="skill-list">
+                        <li>Node.js</li>
+                        <li>Java</li>
+                        <li>MongoDB</li>
+                        <li>MySQL</li>
+                        <li>Express.js</li>
+                        <li>Docker</li>
+                        <li>Git</li>
+                        <li>C++</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -423,324 +125,183 @@
 
     <!-- Projects Section -->
     <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Latest Projects</h2>
-            <p class="section-subtitle">Showcasing my recent work and technical expertise</p>
-            <div class="projects-grid">
-                <div class="project-card">
+        <div class="content-wrapper">
+            <h2 class="section-heading">Projects</h2>
+            <div class="projects-list">
+                <article class="project-item">
                     <div class="project-image">
-                        <img src="assets/images/projects/E-Commerce Platform.png" alt="E-Commerce Website">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <img src="assets/images/projects/E-Commerce Platform.png" alt="E-Commerce Platform">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">E-Commerce</div>
-                        <h3>E-Commerce Platform</h3>
-                        <p>A full-featured online store with secure payment integration, inventory management, and admin dashboard. Built with modern web technologies.</p>
+                        <h3 class="project-title">E-Commerce Platform</h3>
+                        <p class="project-description">A full-featured online store with secure payment integration, inventory management, and admin dashboard. Built with modern web technologies.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Stripe</span>
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>MongoDB</span>
+                            <span>Stripe</span>
                         </div>
                     </div>
-                </div>
-                <div class="project-card">
+                </article>
+
+                <article class="project-item">
                     <div class="project-image">
                         <img src="assets/images/projects/Analytical dashboard.png" alt="Analytical Dashboard">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Analytics</div>
-                        <h3>Analytical Dashboard</h3>
-                        <p>Real-time data visualization dashboard with interactive charts, analytics, and reporting features for business intelligence.</p>
+                        <h3 class="project-title">Analytical Dashboard</h3>
+                        <p class="project-description">Real-time data visualization dashboard with interactive charts, analytics, and reporting features for business intelligence.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Chart.js</span>
-                            <span class="tech-tag">API</span>
-                            <span class="tech-tag">Responsive</span>
+                            <span>JavaScript</span>
+                            <span>Chart.js</span>
+                            <span>API</span>
+                            <span>Responsive</span>
                         </div>
                     </div>
-                </div>
-                <div class="project-card">
+                </article>
+
+                <article class="project-item">
                     <div class="project-image">
-                        <img src="assets/images/projects/Professional Portfolio.png" alt="Portfolio">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <img src="assets/images/projects/Professional Portfolio.png" alt="Professional Portfolio">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Portfolio</div>
-                        <h3>Professional Portfolio</h3>
-                        <p>Modern, responsive portfolio website with smooth animations, interactive elements, and professional design showcasing my work.</p>
+                        <h3 class="project-title">Professional Portfolio</h3>
+                        <p class="project-description">Modern, responsive portfolio website with smooth animations, interactive elements, and professional design showcasing my work.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">HTML</span>
-                            <span class="tech-tag">CSS</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Animations</span>
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                            <span>Animations</span>
                         </div>
                     </div>
-                </div>
-                <div class="project-card">
+                </article>
+
+                <article class="project-item">
                     <div class="project-image">
                         <img src="assets/images/projects/Auction system.png" alt="Auction System">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Digital Solutions</div>
-                        <h3>Auction System</h3>
-                        <p>Advanced online auction platform with real-time bidding, secure payment processing, and comprehensive auction management features.</p>
+                        <h3 class="project-title">Auction System</h3>
+                        <p class="project-description">Advanced online auction platform with real-time bidding, secure payment processing, and comprehensive auction management features.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">WebSocket</span>
-                            <span class="tech-tag">Payment Gateway</span>
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>WebSocket</span>
+                            <span>Payment Gateway</span>
                         </div>
                     </div>
-                </div>
-                <div class="project-card">
+                </article>
+
+                <article class="project-item">
                     <div class="project-image">
-                        <img src="assets/images/projects/SRM software.png" alt="SRM Software">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <img src="assets/images/projects/SRM software.png" alt="CRM Software">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Enterprise</div>
-                        <h3>SRM Software</h3>
-                        <p>Supplier Relationship Management system with advanced features for managing vendor relationships, contracts, and performance tracking.</p>
+                        <h3 class="project-title">CRM Software</h3>
+                        <p class="project-description">Customer Relationship Management system with advanced features for managing customer relationships, contracts, and performance tracking.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">Spring Boot</span>
-                            <span class="tech-tag">MySQL</span>
-                            <span class="tech-tag">Enterprise</span>
+                            <span>Java</span>
+                            <span>Spring Boot</span>
+                            <span>MySQL</span>
+                            <span>Enterprise</span>
                         </div>
                     </div>
-                </div>
-                <div class="project-card">
+                </article>
+
+                <article class="project-item">
                     <div class="project-image">
-                        <img src="assets/images/projects/Metal Detector Drone.jpg" alt="Drone Configuration Project">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <img src="assets/images/projects/Metal Detector Drone.jpg" alt="Metal Detector Drone">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Hardware</div>
-                        <h3>Metal Detector Drone</h3>
-                        <p>Advanced drone configuration with metal detection capabilities, autonomous flight control, and real-time data processing systems.</p>
+                        <h3 class="project-title">Metal Detector Drone</h3>
+                        <p class="project-description">Advanced drone configuration with metal detection capabilities, autonomous flight control, and real-time data processing systems.</p>
                         <div class="project-tech">
-                            <span class="tech-tag">Arduino</span>
-                            <span class="tech-tag">C++</span>
-                            <span class="tech-tag">Hardware</span>
-                            <span class="tech-tag">IoT</span>
+                            <span>Arduino</span>
+                            <span>C++</span>
+                            <span>Hardware</span>
+                            <span>IoT</span>
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- Certifications Section -->
     <section id="certifications" class="certifications">
-        <div class="container">
-            <h2 class="section-title">My Certifications</h2>
-            <p class="section-subtitle">Professional certifications and achievements that validate my expertise</p>
-            <div class="certifications-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="cert-content">
+        <div class="content-wrapper">
+            <h2 class="section-heading">Certifications</h2>
+            <div class="certifications-list">
+                <div class="cert-item">
                         <h3>Full Stack Development</h3>
-                        <p>Comprehensive certification covering frontend and backend technologies</p>
-                        <div class="cert-provider">Tech Academy</div>
-                        <div class="cert-date">2024</div>
-                    </div>
+                    <p>Tech Academy · 2024</p>
                 </div>
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fab fa-java"></i>
-                    </div>
-                    <div class="cert-content">
+                <div class="cert-item">
                         <h3>Java Programming</h3>
-                        <p>Advanced Java programming with OOP concepts and enterprise development</p>
-                        <div class="cert-provider">Oracle University</div>
-                        <div class="cert-date">2023</div>
-                    </div>
+                    <p>Oracle University · 2023</p>
                 </div>
-                <div class="cert-card">
-                    <div class="cert-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="cert-content">
+                <div class="cert-item">
                         <h3>Database Management</h3>
-                        <p>Database design, SQL optimization, and data management systems</p>
-                        <div class="cert-provider">MongoDB University</div>
-                        <div class="cert-date">2023</div>
-                    </div>
+                    <p>MongoDB University · 2023</p>
                 </div>
-                <div class="cert-card">
-                    <div class="cert-image">
-                        <img src="assets/images/certificates/VFJ.jpg" alt="Vehicle Factory Jabalpur Certificate">
-                    </div>
-                    <div class="cert-content">
-                        <h3>Vehicle Factory Jabalpur (VFJ)</h3>
-                    </div>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-image">
-                        <img src="assets/images/certificates/Anocab.jpg" alt="Anocab Pvt. Ltd. Certificate">
-                    </div>
-                    <div class="cert-content">
-                        <h3>Anocab Pvt. Ltd.</h3>
-                    </div>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-image">
-                        <img src="assets/images/certificates/Oracle DataScience professional.png" alt="Oracle Data Science Professional Certificate">
-                    </div>
-                    <div class="cert-content">
+                <div class="cert-item">
                         <h3>Data Science Professional</h3>
-                        <p>Machine learning, data analysis, and statistical modeling</p>
-                        <div class="cert-provider">Oracle</div>
-                        <div class="cert-date">2025</div>
-                    </div>
+                    <p>Oracle · 2025</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <h2 class="section-title">What Our Clients Say</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"Excellent work! Abhay delivered a beautiful website that exceeded our expectations. Professional, responsive, and exactly what we needed."</p>
-                        <div class="testimonial-author">
-                            <h4>Rajesh Kumar</h4>
-                            <span>Business Owner</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"Great developer with excellent communication skills. The project was completed on time and within budget. Highly recommended!"</p>
-                        <div class="testimonial-author">
-                            <h4>Priya Sharma</h4>
-                            <span>Marketing Manager</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"Abhay's technical expertise and attention to detail made our e-commerce platform a huge success. Outstanding work!"</p>
-                        <div class="testimonial-author">
-                            <h4>Anuj sharma</h4>
-                            <span>friend</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="cert-images">
+                <img src="assets/images/certificates/VFJ.jpg" alt="Vehicle Factory Jabalpur Certificate">
+                <img src="assets/images/certificates/Anocab.jpg" alt="Anocab Pvt. Ltd. Certificate">
+                <img src="assets/images/certificates/Oracle DataScience professional.png" alt="Oracle Data Science Professional Certificate">
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Let's Build Something Amazing Together</h2>
+        <div class="content-wrapper">
+            <h2 class="section-heading">Contact</h2>
+            <p class="contact-headline">FEEL LIKE COLLABORATING?</p>
             <div class="contact-content">
                 <div class="contact-info">
-                    <h3>GET IN TOUCH 👋</h3>
-                    <div class="contact-items">
-                        <div class="contact-item item-intro">
-                            <h4>Get in touch</h4>
-                            <span class="contact-anim-line" data-delay="0">Fill out the form to contact me</span>
+                    <p class="contact-intro">Let's build something amazing together.</p>
+                    <div class="contact-details">
+                        <a href="mailto:abhu9513@gmail.com" class="contact-link">abhu9513@gmail.com</a>
+                        <p class="contact-location">Based in India</p>
+                        <a href="assets/images/pdfs/resume.pdf" target="_blank" class="contact-link">Download Resume</a>
                         </div>
-                        <div class="contact-item item-email">
-                            <h4>Email me at</h4>
-                            <span class="contact-anim-line is-email" data-delay="120">abhu9513@gmail.com</span>
+                    <div class="contact-social">
+                        <a href="https://github.com/abhay4868" target="_blank" class="social-link">GitHub</a>
+                        <a href="https://www.linkedin.com/in/abhay-tiwari-29650728b/" target="_blank" class="social-link">LinkedIn</a>
+                        <a href="https://www.instagram.com/abhay.in__/" target="_blank" class="social-link">Instagram</a>
                         </div>
-                        <div class="contact-item item-location">
-                            <h4>Based in</h4>
-                            <span class="contact-anim-line is-location" data-delay="240">India</span>
-                        </div>
-                        <div class="contact-item item-resume">
-                            <h4>Resume</h4>
-                            <a href="assets/images/pdfs/resume.pdf" target="_blank" class="resume-link contact-anim-line is-resume" data-delay="360">Download Resume</a>
-                        </div>
+                    <div class="contact-repeated">
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
+                        <span class="contact-word">contact</span>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <h3>ENQUIRY FORM</h3>
-                    <form id="contactForm">
-                        <div class="form-row">
+                <form class="contact-form" id="contactForm">
                             <div class="form-group">
                                 <input type="text" name="firstName" placeholder="First Name" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" name="lastName" placeholder="Last Name" required>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="tel" name="phone" placeholder="Phone No." required>
-                            </div>
                             <div class="form-group">
                                 <input type="email" name="email" placeholder="Email" required>
                             </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" placeholder="Phone" required>
                         </div>
                         <div class="form-group">
                             <select name="service" required>
-                                <option value="">- Select Service -</option>
+                            <option value="">Select Service</option>
                                 <option value="web">Web Development</option>
                                 <option value="mobile">Mobile App</option>
                                 <option value="design">UI/UX Design</option>
@@ -748,95 +309,21 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="address" placeholder="Address" required>
+                        <textarea name="message" placeholder="Tell me about your project..." rows="5" required></textarea>
                         </div>
-                        <div class="form-group">
-                            <input type="text" name="city" placeholder="City" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" placeholder="Tell me about your project..." rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="submitBtn">Submit Form</button>
-                    </form>
+                    <button type="submit" class="btn-submit">Send Message</button>
                     <div id="formStatus" class="form-status"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Thank You Section -->
-    <section id="thank-you" class="thank-you">
-        <div class="container">
-            <div class="thank-you-inner">
-                <div class="thank-emoji coffee-emoji-row" aria-hidden="true">
-                    <span>✨</span>
-                    <span>☕️</span>
-                    <span>💻</span>
-                    <span>🫘</span>
-                    <span>🚀</span>
-                    <span>🎉</span>
-                    <span>⭐️</span>
-                    <span>🧠</span>
-                </div>
-                <div class="confetti" aria-hidden="true">
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
-                <h2 class="thank-title">
-                    <span class="word">Thank</span>
-                    <span class="word">you</span>
-                    <span class="word">for</span>
-                    <span class="word">visiting!</span>
-                </h2>
-                <div class="coffee-cup" aria-hidden="true">
-                    <span class="cup">☕️</span>
-                    <span class="steam s1"></span>
-                    <span class="steam s2"></span>
-                    <span class="steam s3"></span>
-                </div>
-                <p class="thank-subtitle">Fueled by coffee and clean code — let’s build something awesome together.</p>
-                <div class="coffee-divider" aria-hidden="true">
-                    <span class="bean">🫘</span>
-                    <span class="line"></span>
-                    <span class="bean">🫘</span>
-                    <span class="line"></span>
-                    <span class="bean">🫘</span>
-                </div>
-                <div class="coffee-chips">
-                    <span class="coffee-chip">Full‑stack builds</span>
-                    <span class="coffee-chip">Pixel‑perfect UI</span>
-                    <span class="coffee-chip">Performance obsessed</span>
-                    <span class="coffee-chip">Clean architecture</span>
-                    <span class="coffee-chip">Always on time</span>
-                </div>
-                <div class="coffee-badges" aria-hidden="true">
-                    <div class="badge"><span>☕️</span> Caffeinated</div>
-                    <div class="badge"><span>✅</span> Bug‑focused</div>
-                    <div class="badge"><span>⚡️</span> Fast delivery</div>
-                </div>
-                <div class="thank-actions">
-                    <a href="#contact" class="btn btn-primary" aria-label="Say Hello">
-                        <i class="fas fa-envelope"></i>
-                        <span class="btn-label">Say Hello</span>
-                    </a>
-                    <a href="#home" class="btn btn-secondary" aria-label="Back to Top">
-                        <i class="fas fa-arrow-up"></i>
-                        <span class="btn-label">Back to Top</span>
-                    </a>
-                </div>
+                </form>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
+        <div class="content-wrapper">
             <p>&copy; 2024 Abhay Tiwari. All rights reserved.</p>
         </div>
     </footer>
-
     
     <script src="script.js"></script>
 </body>
