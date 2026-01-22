@@ -511,6 +511,17 @@ img {
     vertical-align: baseline;
     line-height: 1;
     font-weight: 600;
+    animation: breathing 2.5s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes breathing {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.12);
+    }
 }
 
 .projects-i-made {
@@ -563,6 +574,16 @@ img {
     perspective: 1200px;
     position: relative;
     margin-top: -70px;
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
 .about-image {
@@ -978,23 +999,98 @@ img {
    ============================================ */
 .contact {
     padding: var(--spacing-xxl) 0;
+    overflow: hidden;
+}
+
+.contact-heading-strip {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: var(--spacing-xl);
+    background: var(--bg-primary);
+    padding: var(--spacing-md) 0;
+}
+
+.contact-strip-content {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: slideRightToLeft 15s linear infinite;
+}
+
+.contact-strip-content .strip-text {
+    font-family: var(--font-serif);
+    font-size: 180px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: inline-block;
+    padding: 0 100px;
+}
+
+@keyframes slideRightToLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.333%);
+    }
 }
 
 .contact-headline {
-    font-size: 0.875rem;
+    font-family: var(--font-sans);
+    font-size: clamp(3.5rem, 8vw, 7rem);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
+    letter-spacing: -0.05em;
+    color: var(--text-primary);
     margin-bottom: var(--spacing-lg);
-    font-weight: 500;
+    font-weight: 900;
+    -webkit-text-stroke: 4px var(--text-primary);
+    text-stroke: 4px var(--text-primary);
+    text-shadow: 
+        2px 2px 0 var(--text-primary),
+        -2px -2px 0 var(--text-primary),
+        2px -2px 0 var(--text-primary),
+        -2px 2px 0 var(--text-primary);
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scaleX(0.75);
     transition: opacity 0.6s ease, transform 0.6s ease;
+    text-align: center;
+    line-height: 1.2;
+    font-stretch: condensed;
 }
 
 .contact-headline.animate {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scaleX(0.75);
+}
+
+.contact-headline .letter {
+    display: inline-block;
+    animation: slideOutIn 3.8s ease-in-out;
+}
+
+/* Letter animations are controlled by JavaScript */
+
+@keyframes slideOutIn {
+    0%, 85% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    5% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    8% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    12% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .contact-content {

@@ -265,6 +265,8 @@ const contactSection = document.querySelector('#contact');
                 }
                 if (contactHeadline) {
                     contactHeadline.classList.add('animate');
+                    // Initialize random letter animations
+                    initRandomLetterAnimations(contactHeadline);
                 }
                 
                 contactObserver.unobserve(entry.target);
@@ -273,6 +275,49 @@ const contactSection = document.querySelector('#contact');
     }, { threshold: 0.2 });
     
     contactObserver.observe(contactSection);
+}
+
+// ============================================
+// RANDOM LETTER ANIMATIONS FOR CONTACT HEADLINE
+// ============================================
+function initRandomLetterAnimations(headline) {
+    const word1Letters = Array.from(headline.querySelectorAll('.letter.word1'));
+    const word2Letters = Array.from(headline.querySelectorAll('.letter.word2'));
+    const word3Letters = Array.from(headline.querySelectorAll('.letter.word3'));
+    
+    // Function to get random letter from array
+    function getRandomLetter(letters) {
+        return letters[Math.floor(Math.random() * letters.length)];
+    }
+    
+    // Create rounds - one letter from each word per round
+    const rounds = 10; // Number of animation rounds
+    const animationDuration = 0.5; // Animation duration in seconds (faster)
+    const breakDuration = 3; // Break between rounds in seconds
+    const roundDuration = animationDuration + breakDuration; // Total time per round
+    
+    for (let round = 0; round < rounds; round++) {
+        const delay = round * roundDuration;
+        
+        // Get random letters from each word for this round
+        const letter1 = getRandomLetter(word1Letters);
+        const letter2 = getRandomLetter(word2Letters);
+        const letter3 = getRandomLetter(word3Letters);
+        
+        // Set animation delay and ensure animation is enabled for this round
+        if (letter1) {
+            letter1.style.animation = 'slideOutIn 3.5s ease-in-out';
+            letter1.style.animationDelay = `${delay}s`;
+        }
+        if (letter2) {
+            letter2.style.animation = 'slideOutIn 3.5s ease-in-out';
+            letter2.style.animationDelay = `${delay}s`;
+        }
+        if (letter3) {
+            letter3.style.animation = 'slideOutIn 3.5s ease-in-out';
+            letter3.style.animationDelay = `${delay}s`;
+        }
+    }
 }
 
 // Observe about text
