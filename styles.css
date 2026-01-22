@@ -1024,6 +1024,7 @@ img {
     color: var(--text-primary);
     display: inline-block;
     padding: 0 100px;
+    filter: grayscale(100%);
 }
 
 @keyframes slideRightToLeft {
@@ -1065,10 +1066,8 @@ img {
 
 .contact-headline .letter {
     display: inline-block;
-    animation: slideOutIn 3.8s ease-in-out;
+    /* Animation is controlled by JavaScript */
 }
-
-/* Letter animations are controlled by JavaScript */
 
 @keyframes slideOutIn {
     0%, 85% {

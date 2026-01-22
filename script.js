@@ -253,34 +253,67 @@ document.querySelectorAll('.section-heading').forEach((heading) => {
 
 // Observe contact section
 const contactSection = document.querySelector('#contact');
-    if (contactSection) {
-        const contactObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                const contactInfo = entry.target.querySelector('.contact-info');
-                const contactHeadline = entry.target.querySelector('.contact-headline');
-                
-                if (contactInfo) {
-                    contactInfo.classList.add('animate');
-                }
-                if (contactHeadline) {
-                    contactHeadline.classList.add('animate');
-                    // Initialize random letter animations
-                    initRandomLetterAnimations(contactHeadline);
-                }
-                
-                contactObserver.unobserve(entry.target);
+if (contactSection) {
+    let animationInitialized = false;
+    
+    function initializeContactAnimations() {
+        if (animationInitialized) return;
+        
+        const contactInfo = contactSection.querySelector('.contact-info');
+        const contactHeadline = contactSection.querySelector('.contact-headline');
+        
+        if (contactInfo) {
+            contactInfo.classList.add('animate');
+        }
+        if (contactHeadline) {
+            contactHeadline.classList.add('animate');
+            // Initialize random letter animations
+            initRandomLetterAnimations(contactHeadline);
+            animationInitialized = true;
+        }
+    }
+    
+    const contactObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                initializeContactAnimations();
             }
         });
     }, { threshold: 0.2 });
     
     contactObserver.observe(contactSection);
+    
+    // Initialize immediately if section is already visible on load
+    setTimeout(() => {
+        if (contactSection.getBoundingClientRect().top < window.innerHeight * 1.5) {
+            initializeContactAnimations();
+        }
+    }, 100);
+    
+    // Also initialize on page load after a short delay to ensure DOM is ready
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (!animationInitialized && contactSection.getBoundingClientRect().top < window.innerHeight * 1.5) {
+                initializeContactAnimations();
+            }
+        }, 500);
+    });
 }
 
 // ============================================
 // RANDOM LETTER ANIMATIONS FOR CONTACT HEADLINE
 // ============================================
 function initRandomLetterAnimations(headline) {
+    // Clear any existing animations first
+    const allLetters = Array.from(headline.querySelectorAll('.letter'));
+    allLetters.forEach(letter => {
+        letter.style.animation = 'none';
+        letter.style.animationDelay = '0s';
+    });
+    
+    // Force reflow to reset
+    void headline.offsetHeight;
+    
     const word1Letters = Array.from(headline.querySelectorAll('.letter.word1'));
     const word2Letters = Array.from(headline.querySelectorAll('.letter.word2'));
     const word3Letters = Array.from(headline.querySelectorAll('.letter.word3'));
@@ -292,9 +325,7 @@ function initRandomLetterAnimations(headline) {
     
     // Create rounds - one letter from each word per round
     const rounds = 10; // Number of animation rounds
-    const animationDuration = 0.5; // Animation duration in seconds (faster)
-    const breakDuration = 3; // Break between rounds in seconds
-    const roundDuration = animationDuration + breakDuration; // Total time per round
+    const roundDuration = 3.5; // Total time per round (0.5s animation + 3s break)
     
     for (let round = 0; round < rounds; round++) {
         const delay = round * roundDuration;
@@ -304,18 +335,16 @@ function initRandomLetterAnimations(headline) {
         const letter2 = getRandomLetter(word2Letters);
         const letter3 = getRandomLetter(word3Letters);
         
-        // Set animation delay and ensure animation is enabled for this round
+        // Set animation with infinite loop - each animation is 3.5s (one round), delayed by round * 3.5s
+        // This creates a continuous loop where each round repeats
         if (letter1) {
-            letter1.style.animation = 'slideOutIn 3.5s ease-in-out';
-            letter1.style.animationDelay = `${delay}s`;
+            letter1.style.animation = `slideOutIn 3.5s ease-in-out ${delay}s infinite`;
         }
         if (letter2) {
-            letter2.style.animation = 'slideOutIn 3.5s ease-in-out';
-            letter2.style.animationDelay = `${delay}s`;
+            letter2.style.animation = `slideOutIn 3.5s ease-in-out ${delay}s infinite`;
         }
         if (letter3) {
-            letter3.style.animation = 'slideOutIn 3.5s ease-in-out';
-            letter3.style.animationDelay = `${delay}s`;
+            letter3.style.animation = `slideOutIn 3.5s ease-in-out ${delay}s infinite`;
         }
     }
 }
@@ -497,12 +526,18 @@ cursor.style.cssText = `
 document.body.appendChild(cursor);
 
 // Show cursor on desktop only
+let isHoveringHeadline = false;
+
 if (window.matchMedia('(pointer: fine)').matches) {
     cursor.style.display = 'block';
     
     document.addEventListener('mousemove', (e) => {
+        // Always update cursor position to follow mouse
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
+        if (!isHoveringHeadline) {
+            cursor.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        }
         cursor.style.opacity = '1';
     });
     
@@ -534,6 +569,235 @@ if (window.matchMedia('(pointer: fine)').matches) {
             cursor.style.transform = 'translate(-50%, -50%) scale(1)';
         });
     });
+    
+    // Change cursor to smiley face emoji when hovering over "FEEL LIKE COLLABORATING"
+    setTimeout(() => {
+        const contactHeadline = document.querySelector('.contact-headline');
+        
+        if (contactHeadline) {
+            const originalCursorHTML = cursor.innerHTML;
+            let lastX = 0;
+            let lastY = 0;
+            let rotation = 0;
+            
+            contactHeadline.addEventListener('mouseenter', () => {
+                isHoveringHeadline = true;
+                
+                // First, fade out the current cursor content
+                cursor.style.opacity = '0';
+                cursor.style.transition = 'opacity 0.2s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                
+                // Wait for fade out, then change size and content
+                setTimeout(() => {
+                    // Change cursor to show custom smiley face at 100px size with smooth transition
+                    cursor.style.setProperty('width', '100px', 'important');
+                    cursor.style.setProperty('height', '100px', 'important');
+                    cursor.style.setProperty('min-width', '100px', 'important');
+                    cursor.style.setProperty('min-height', '100px', 'important');
+                    
+                    // Create custom smiley face with separate eyes
+                    const smileyContainer = document.createElement('div');
+                smileyContainer.id = 'smiley-cursor-container';
+                smileyContainer.style.cssText = `
+                    width: 100px;
+                    height: 100px;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+                
+                    // Face circle (yellow background)
+                    const face = document.createElement('div');
+                face.style.cssText = `
+                    width: 100px;
+                    height: 100px;
+                    background: #FFD700;
+                    border-radius: 50%;
+                    position: relative;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                `;
+                
+                    // Eyes container
+                    const eyesContainer = document.createElement('div');
+                eyesContainer.id = 'smiley-eyes-container';
+                eyesContainer.style.cssText = `
+                    position: absolute;
+                    top: 30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    gap: 20px;
+                    width: 100%;
+                    justify-content: center;
+                `;
+                
+                    // Left eye (using > symbol)
+                    const leftEye = document.createElement('div');
+                leftEye.id = 'smiley-left-eye';
+                leftEye.textContent = '>';
+                leftEye.style.cssText = `
+                    font-size: 30px;
+                    color: #000;
+                    font-weight: bold;
+                    line-height: 1;
+                    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    transform-origin: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+                
+                    // Right eye (using > symbol - both point same direction)
+                    const rightEye = document.createElement('div');
+                rightEye.id = 'smiley-right-eye';
+                rightEye.textContent = '>';
+                rightEye.style.cssText = `
+                    font-size: 30px;
+                    color: #000;
+                    font-weight: bold;
+                    line-height: 1;
+                    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    transform-origin: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+                
+                    // Mouth
+                    const mouth = document.createElement('div');
+                mouth.style.cssText = `
+                    position: absolute;
+                    bottom: 25px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 40px;
+                    height: 20px;
+                    border: 3px solid #000;
+                    border-top: none;
+                    border-radius: 0 0 40px 40px;
+                    background: transparent;
+                `;
+                
+                    eyesContainer.appendChild(leftEye);
+                    eyesContainer.appendChild(rightEye);
+                    face.appendChild(eyesContainer);
+                    face.appendChild(mouth);
+                    smileyContainer.appendChild(face);
+                
+                    cursor.innerHTML = '';
+                    cursor.appendChild(smileyContainer);
+                    
+                    // Fade in and scale up smoothly
+                    cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                    cursor.style.opacity = '0';
+                    
+                    // Trigger reflow for smooth animation
+                    void cursor.offsetWidth;
+                    
+                    // Animate to full size and opacity
+                    setTimeout(() => {
+                        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                        cursor.style.opacity = '1';
+                        cursor.style.transition = 'opacity 0.3s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    }, 10);
+                    
+                    cursor.style.pointerEvents = 'none';
+                }, 200);
+            });
+            
+            // Track mouse movement to determine direction and move eyes
+            let eyeResetTimeout;
+            contactHeadline.addEventListener('mousemove', (e) => {
+                if (!isHoveringHeadline) return;
+                
+                const currentX = e.clientX;
+                const currentY = e.clientY;
+                
+                // Clear previous reset timeout
+                if (eyeResetTimeout) {
+                    clearTimeout(eyeResetTimeout);
+                }
+                
+                // Calculate direction only if we have previous position
+                if (lastX !== 0 || lastY !== 0) {
+                    const deltaX = currentX - lastX;
+                    const deltaY = currentY - lastY;
+                    
+                    // Get eye elements
+                    const leftEye = document.getElementById('smiley-left-eye');
+                    const rightEye = document.getElementById('smiley-right-eye');
+                    
+                    if (leftEye && rightEye) {
+                        // Calculate movement intensity with reduced sensitivity (0.2 instead of 0.5)
+                        // Reduced max movement range for smoother, less sensitive response
+                        const moveX = Math.max(-6, Math.min(6, deltaX * 0.2));
+                        const moveY = Math.max(-6, Math.min(6, deltaY * 0.2));
+                        
+                        // Calculate angle for eye rotation based on direction
+                        const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+                        
+                        // Move and rotate eyes in the same direction as cursor movement
+                        // Eyes move in the direction of movement and rotate to point that way
+                        leftEye.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
+                        rightEye.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
+                    }
+                }
+                
+                lastX = currentX;
+                lastY = currentY;
+                
+                // Reset eyes to center after 300ms of no movement (smoother reset)
+                eyeResetTimeout = setTimeout(() => {
+                    const leftEye = document.getElementById('smiley-left-eye');
+                    const rightEye = document.getElementById('smiley-right-eye');
+                    if (leftEye && rightEye) {
+                        leftEye.style.transform = 'translate(0, 0) rotate(0deg)';
+                        rightEye.style.transform = 'translate(0, 0) rotate(0deg)';
+                    }
+                }, 300);
+            });
+            
+            contactHeadline.addEventListener('mouseleave', () => {
+                isHoveringHeadline = false;
+                lastX = 0;
+                lastY = 0;
+                
+                // Reset eyes to center
+                const leftEye = document.getElementById('smiley-left-eye');
+                const rightEye = document.getElementById('smiley-right-eye');
+                if (leftEye && rightEye) {
+                    leftEye.style.transform = 'translate(0, 0) rotate(0deg)';
+                    rightEye.style.transform = 'translate(0, 0) rotate(0deg)';
+                }
+                
+                if (eyeResetTimeout) {
+                    clearTimeout(eyeResetTimeout);
+                }
+                
+                // Smooth fade out and scale down
+                cursor.style.transition = 'opacity 0.2s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                cursor.style.opacity = '0';
+                
+                // Wait for fade out, then restore original cursor
+                setTimeout(() => {
+                    cursor.style.removeProperty('width');
+                    cursor.style.removeProperty('height');
+                    cursor.style.removeProperty('min-width');
+                    cursor.style.removeProperty('min-height');
+                    cursor.innerHTML = originalCursorHTML;
+                    
+                    // Fade in original cursor
+                    setTimeout(() => {
+                        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                        cursor.style.opacity = '1';
+                        cursor.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    }, 10);
+                }, 200);
+            });
+        }
+    }, 500);
 }
 
 // ============================================
