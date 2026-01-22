@@ -178,21 +178,22 @@ document.querySelectorAll('section').forEach((section, index) => {
     revealObserver.observe(section);
 });
 
-// Observe project items with staggered delays
+// Observe project items: slide-in images when scrolling down from skills into projects
 document.querySelectorAll('.project-item').forEach((item, index) => {
     item.style.opacity = '0';
-    item.style.transform = 'translateY(30px)';
-    item.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`;
+    item.style.transform = 'translateY(20px)';
+    item.style.transition = `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12}s`;
     
     const projectObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('slide-in');
                 projectObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
     
     projectObserver.observe(item);
 });
@@ -224,8 +225,90 @@ document.querySelectorAll('.skill-category').forEach((category, index) => {
     skillObserver.observe(category);
 });
 
+// ============================================
+// SKILLS "WHAT I HAVE" SPREAD / GATHER DURING SCROLL
+// ============================================
+(function() {
+    const subtitle = document.getElementById('skillsSubtitle');
+    const skillsSection = document.getElementById('skills');
+    if (!subtitle || !skillsSection) return;
+
+    const letters = subtitle.querySelectorAll('.subtitle-letter:not([data-space])');
+    const spaces = subtitle.querySelectorAll('.subtitle-letter[data-space]');
+    const totalLetters = letters.length;
+    const spreadDistance = 200;
+    let ticking = false;
+
+    // Precompute spread transforms: each letter moves in a different direction (fan out)
+    const spreadTransforms = [];
+    for (let i = 0; i < totalLetters; i++) {
+        const angle = (i / Math.max(1, totalLetters - 1)) * Math.PI * 1.8 - Math.PI * 0.9;
+        spreadTransforms.push({
+            x: Math.cos(angle) * spreadDistance,
+            y: Math.sin(angle) * spreadDistance
+        });
+    }
+
+    function easeProgress(t) {
+        return t * t * (3 - 2 * t);
+    }
+
+    function updateLetters(progress) {
+        const p = easeProgress(progress);
+        letters.forEach((el, i) => {
+            const t = spreadTransforms[i];
+            if (t) {
+                const x = t.x * p;
+                const y = t.y * p;
+                el.style.transform = `translate(${x}px, ${y}px)`;
+            }
+            el.style.opacity = String(1 - p);
+        });
+        spaces.forEach((el) => {
+            el.style.opacity = String(1 - p);
+        });
+    }
+
+    function onScroll() {
+        const top = subtitle.getBoundingClientRect().top;
+        const h = window.innerHeight;
+
+        // Zone: subtitle moves from ~35% viewport height down to just above viewport (-80px)
+        // While scrolling down through this zone, progress 0 → 1 (spread + fade)
+        // While scrolling up, progress 1 → 0 (gather + appear)
+        const topStart = h * 0.35;
+        const topEnd = -80;
+        let progress = (topStart - top) / (topStart - topEnd);
+        progress = Math.max(0, Math.min(1, progress));
+
+        updateLetters(progress);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(onScroll);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    window.addEventListener('load', onScroll);
+    window.addEventListener('resize', onScroll);
+    onScroll();
+})();
+
 // Observe section headings
 document.querySelectorAll('.section-heading').forEach((heading) => {
+    if (heading.id === 'projects-heading') {
+        const projectHeadingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('animate');
+            });
+        }, { threshold: 0.3 });
+        projectHeadingObserver.observe(heading);
+        return;
+    }
     // Split heading into words
     const text = heading.textContent;
     const words = text.split(' ');

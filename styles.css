@@ -532,6 +532,64 @@ img {
     font-weight: 600;
 }
 
+/* Projects "MADE" SVG stroke-draw animation */
+.projects-made-svg {
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 1;
+    color: inherit;
+}
+
+.made-draw-svg {
+    display: inline-block;
+    height: 80px;
+    width: auto;
+    vertical-align: middle;
+    overflow: visible;
+}
+
+.made-draw-svg .made-char {
+    font-family: var(--font-serif);
+    font-size: 72px;
+    font-weight: 600;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 180;
+    stroke-dashoffset: 180;
+    animation: made-draw 4.2s ease-in-out infinite;
+}
+
+.made-draw-svg .made-char:nth-child(1) { animation-delay: 0s; }
+.made-draw-svg .made-char:nth-child(2) { animation-delay: 0.3s; }
+.made-draw-svg .made-char:nth-child(3) { animation-delay: 0.6s; }
+.made-draw-svg .made-char:nth-child(4) { animation-delay: 0.9s; }
+
+@keyframes made-draw {
+    0% {
+        stroke-dashoffset: 180;
+        stroke-width: 2;
+        fill: transparent;
+    }
+    28% {
+        stroke-dashoffset: 0;
+        stroke-width: 2;
+        fill: transparent;
+    }
+    29% {
+        stroke-dashoffset: 0;
+        stroke-width: 0;
+        fill: currentColor;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        stroke-width: 0;
+        fill: currentColor;
+    }
+}
+
 /* ============================================
    ABOUT SECTION
    ============================================ */
@@ -722,6 +780,7 @@ img {
 .skills {
     padding: var(--spacing-xxl) 0;
     background: var(--bg-secondary);
+    overflow: visible;
 }
 
 .skills-subtitle {
@@ -735,11 +794,19 @@ img {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
+    overflow: visible;
+    position: relative;
 }
 
 .skills-subtitle.animate {
     opacity: 1;
     transform: translateY(0);
+}
+
+.skills-subtitle .subtitle-letter {
+    display: inline-block;
+    will-change: transform;
+    /* No transition: scroll-linked animation is driven by JS during scroll */
 }
 
 .skills-grid {
@@ -851,8 +918,6 @@ img {
     align-items: center;
     padding-bottom: var(--spacing-xl);
     border-bottom: 1px solid var(--border);
-    animation: fadeInUp 0.6s ease;
-    animation-fill-mode: both;
 }
 
 .project-item:last-child {
@@ -870,13 +935,33 @@ img {
 .project-image {
     overflow: hidden;
     border-radius: 4px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-80px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project-image {
-    overflow: hidden;
-    border-radius: 4px;
-    position: relative;
+.project-item:nth-child(even) .project-image {
+    transform: translateX(80px);
 }
+
+.project-item.slide-in .project-image {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.project-item:nth-child(even).slide-in .project-image {
+    transform: translateX(0);
+}
+
+/* Staggered slide-in delays when entering projects section */
+.project-item:nth-child(1) .project-image { transition-delay: 0.1s; }
+.project-item:nth-child(2) .project-image { transition-delay: 0.25s; }
+.project-item:nth-child(3) .project-image { transition-delay: 0.4s; }
+.project-item:nth-child(4) .project-image { transition-delay: 0.55s; }
+.project-item:nth-child(5) .project-image { transition-delay: 0.7s; }
+.project-item:nth-child(6) .project-image { transition-delay: 0.85s; }
 
 .project-image::after {
     content: '';
@@ -1394,13 +1479,6 @@ img {
     }
 }
 
-/* Staggered animation for project items */
-.project-item:nth-child(1) { animation-delay: 0.1s; }
-.project-item:nth-child(2) { animation-delay: 0.2s; }
-.project-item:nth-child(3) { animation-delay: 0.3s; }
-.project-item:nth-child(4) { animation-delay: 0.4s; }
-.project-item:nth-child(5) { animation-delay: 0.5s; }
-.project-item:nth-child(6) { animation-delay: 0.6s; }
 
 /* Hero text reveal */
 .hero-name,
