@@ -622,52 +622,98 @@ cursor.style.cssText = `
 `;
 document.body.appendChild(cursor);
 
-// Show cursor on desktop only
+// Show cursor on all devices (desktop and mobile)
 let isHoveringHeadline = false;
+let isTouching = false;
 
-if (window.matchMedia('(pointer: fine)').matches) {
-    cursor.style.display = 'block';
-    
-    document.addEventListener('mousemove', (e) => {
-        // Always update cursor position to follow mouse
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-        if (!isHoveringHeadline) {
-            cursor.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+// Function to update cursor position
+function updateCursorPosition(x, y) {
+    cursor.style.left = x + 'px';
+    cursor.style.top = y + 'px';
+    if (!isHoveringHeadline) {
+        cursor.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+    }
+    cursor.style.opacity = '1';
+}
+
+cursor.style.display = 'block';
+
+// Mouse events (desktop)
+document.addEventListener('mousemove', (e) => {
+    if (!isTouching) {
+        updateCursorPosition(e.clientX, e.clientY);
+    }
+});
+
+// Touch events (mobile)
+document.addEventListener('touchstart', (e) => {
+    isTouching = true;
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updateCursorPosition(touch.clientX, touch.clientY);
+    }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updateCursorPosition(touch.clientX, touch.clientY);
+    }
+}, { passive: true });
+
+document.addEventListener('touchend', () => {
+    isTouching = false;
+    // Keep cursor visible briefly after touch ends
+    setTimeout(() => {
+        if (!isTouching) {
+            cursor.style.opacity = '0.5';
         }
-        cursor.style.opacity = '1';
-    });
-    
-    // Hide cursor when mouse leaves the viewport
-    document.addEventListener('mouseleave', () => {
+    }, 300);
+}, { passive: true });
+
+// Hide cursor when mouse leaves the viewport
+document.addEventListener('mouseleave', () => {
+    if (!isTouching) {
         cursor.style.opacity = '0';
-    });
-    
-    // Also hide when mouse goes outside document bounds
-    document.addEventListener('mouseout', (e) => {
-        if (!e.relatedTarget && !e.toElement) {
-            cursor.style.opacity = '0';
-        }
-    });
-    
-    // Show cursor when mouse enters the document
-    document.addEventListener('mouseenter', () => {
+    }
+});
+
+// Also hide when mouse goes outside document bounds
+document.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget && !e.toElement && !isTouching) {
+        cursor.style.opacity = '0';
+    }
+});
+
+// Show cursor when mouse enters the document
+document.addEventListener('mouseenter', () => {
+    if (!isTouching) {
         cursor.style.opacity = '1';
+    }
+});
+
+// Interactive elements - enlarge cursor
+const interactiveElements = document.querySelectorAll('a, button, .project-image, .skill-list li, .btn-submit');
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
     });
     
-    // Interactive elements - enlarge cursor
-    const interactiveElements = document.querySelectorAll('a, button, .project-image, .skill-list li, .btn-submit');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
+    el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
     });
     
-    // Change cursor to smiley face emoji when hovering over "FEEL LIKE COLLABORATING"
+    // Touch events for mobile
+    el.addEventListener('touchstart', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+    }, { passive: true });
+    
+    el.addEventListener('touchend', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, { passive: true });
+});
+    
+    // Change cursor to smiley face emoji when hovering/touching over "FEEL LIKE COLLABORATING"
     setTimeout(() => {
         const contactHeadline = document.querySelector('.contact-headline');
         
@@ -677,7 +723,8 @@ if (window.matchMedia('(pointer: fine)').matches) {
             let lastY = 0;
             let rotation = 0;
             
-            contactHeadline.addEventListener('mouseenter', () => {
+            // Function to transform cursor to smiley face
+            function transformToSmiley() {
                 isHoveringHeadline = true;
                 
                 // First, fade out the current cursor content
@@ -801,19 +848,15 @@ if (window.matchMedia('(pointer: fine)').matches) {
                     
                     cursor.style.pointerEvents = 'none';
                 }, 200);
-            });
+            }
             
-            // Track mouse movement to determine direction and move eyes
-            let eyeResetTimeout;
-            contactHeadline.addEventListener('mousemove', (e) => {
+            // Function to update eyes based on movement
+            function updateEyes(currentX, currentY) {
                 if (!isHoveringHeadline) return;
                 
-                const currentX = e.clientX;
-                const currentY = e.clientY;
-                
                 // Clear previous reset timeout
-                if (eyeResetTimeout) {
-                    clearTimeout(eyeResetTimeout);
+                if (window.eyeResetTimeout) {
+                    clearTimeout(window.eyeResetTimeout);
                 }
                 
                 // Calculate direction only if we have previous position
@@ -845,7 +888,7 @@ if (window.matchMedia('(pointer: fine)').matches) {
                 lastY = currentY;
                 
                 // Reset eyes to center after 300ms of no movement (smoother reset)
-                eyeResetTimeout = setTimeout(() => {
+                window.eyeResetTimeout = setTimeout(() => {
                     const leftEye = document.getElementById('smiley-left-eye');
                     const rightEye = document.getElementById('smiley-right-eye');
                     if (leftEye && rightEye) {
@@ -853,9 +896,10 @@ if (window.matchMedia('(pointer: fine)').matches) {
                         rightEye.style.transform = 'translate(0, 0) rotate(0deg)';
                     }
                 }, 300);
-            });
+            }
             
-            contactHeadline.addEventListener('mouseleave', () => {
+            // Function to restore original cursor
+            function restoreOriginalCursor() {
                 isHoveringHeadline = false;
                 lastX = 0;
                 lastY = 0;
@@ -868,8 +912,8 @@ if (window.matchMedia('(pointer: fine)').matches) {
                     rightEye.style.transform = 'translate(0, 0) rotate(0deg)';
                 }
                 
-                if (eyeResetTimeout) {
-                    clearTimeout(eyeResetTimeout);
+                if (window.eyeResetTimeout) {
+                    clearTimeout(window.eyeResetTimeout);
                 }
                 
                 // Smooth fade out and scale down
@@ -892,10 +936,53 @@ if (window.matchMedia('(pointer: fine)').matches) {
                         cursor.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
                     }, 10);
                 }, 200);
+            }
+            
+            // Mouse events (desktop)
+            contactHeadline.addEventListener('mouseenter', () => {
+                transformToSmiley();
             });
+            
+            contactHeadline.addEventListener('mousemove', (e) => {
+                updateEyes(e.clientX, e.clientY);
+            });
+            
+            contactHeadline.addEventListener('mouseleave', () => {
+                restoreOriginalCursor();
+            });
+            
+            // Touch events (mobile)
+            contactHeadline.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    lastX = touch.clientX;
+                    lastY = touch.clientY;
+                    transformToSmiley();
+                    updateCursorPosition(touch.clientX, touch.clientY);
+                }
+            }, { passive: false });
+            
+            contactHeadline.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (e.touches.length > 0) {
+                    const touch = e.touches[0];
+                    updateEyes(touch.clientX, touch.clientY);
+                    updateCursorPosition(touch.clientX, touch.clientY);
+                }
+            }, { passive: false });
+            
+            contactHeadline.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                restoreOriginalCursor();
+            }, { passive: false });
+            
+            contactHeadline.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                restoreOriginalCursor();
+            }, { passive: false });
         }
     }, 500);
-}
 
 // ============================================
 // CONTACT FORM HANDLING
