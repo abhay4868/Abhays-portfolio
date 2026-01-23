@@ -198,6 +198,20 @@ document.querySelectorAll('.project-item').forEach((item, index) => {
     projectObserver.observe(item);
 });
 
+// E-Commerce Platform title: fade + slide up once on scroll into view
+const ecommerceTitle = document.querySelector('.project-title--scroll-reveal');
+if (ecommerceTitle) {
+    const titleRevealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                titleRevealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+    titleRevealObserver.observe(ecommerceTitle);
+}
+
 // Observe skill categories
 document.querySelectorAll('.skill-category').forEach((category, index) => {
     category.style.opacity = '0';
@@ -447,19 +461,19 @@ if (aboutText) {
     aboutObserver.observe(aboutText);
 }
 
-// Observe about image
-const aboutImage = document.querySelector('.about-image');
-if (aboutImage) {
+// Observe about images (all three overlap; when first is in view, reveal all)
+const aboutImages = document.querySelector('.about-images');
+const aboutImageEls = document.querySelectorAll('.about-image');
+if (aboutImages && aboutImageEls.length) {
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
+                aboutImageEls.forEach((el) => el.classList.add('animate'));
                 imageObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.3 });
-    
-    imageObserver.observe(aboutImage);
+    }, { threshold: 0.2 });
+    imageObserver.observe(aboutImages);
 }
 
 // ============================================
