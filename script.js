@@ -1036,15 +1036,43 @@ if (contactForm) {
             return;
         }
         
-        // Simulate form submission
+        const serviceLabels = {
+            web: 'Web Development',
+            mobile: 'Mobile App',
+            design: 'UI/UX Design',
+            ecommerce: 'E-Commerce'
+        };
+        const serviceText = serviceLabels[data.service] || data.service;
+
+        const fullName = `${data.firstName} ${data.lastName}`.trim();
+        const messageBody = [
+            'New Portfolio Inquiry',
+            '',
+            `Name: ${fullName}`,
+            `Email: ${data.email}`,
+            `Phone: ${data.phone}`,
+            `Service: ${serviceText}`,
+            '',
+            'Project Details:',
+            data.message
+        ].join('\n');
+
+        const whatsappUrl = `https://wa.me/917223014739?text=${encodeURIComponent(messageBody)}`;
+        const emailSubject = 'New Portfolio Inquiry';
+        const mailtoUrl = `mailto:abhu9513@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(messageBody)}`;
+
+        // Open WhatsApp and email composer together.
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         setTimeout(() => {
-            formStatus.className = 'form-status success';
-            formStatus.textContent = 'Thank you! Your message has been sent. I\'ll get back to you soon.';
-            formStatus.style.display = 'block';
-            contactForm.reset();
-            submitBtn.textContent = originalText;
+            window.location.href = mailtoUrl;
+        }, 200);
+
+        formStatus.className = 'form-status success';
+        formStatus.textContent = 'Message prepared for WhatsApp and email. Please press send in both apps.';
+        formStatus.style.display = 'block';
+        contactForm.reset();
+        submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        }, 1500);
     });
 }
 
